@@ -128,6 +128,7 @@ def mandelbrot_zoom(
             output_path=output_path,
         )
 
+### JULIA ###
 def julia(
     c_real: float,
     c_imag: float,
@@ -160,3 +161,31 @@ def julia(
     Image.fromarray(img, mode="L").save(output_path)
     return output_path
 
+### ANIMACIÓN CON JULIA ###
+def julia_animation(
+    frames: int = 120,
+    width: int = 800,
+    height: int = 600,
+    max_iter: int = 150,
+    output_dir: str = "assets/output/julia_frames",
+) -> str:
+    os.makedirs(output_dir, exist_ok=True)
+
+    for i in range (frames):
+        t = i / (frames-1)
+
+        # Trayectoria circular suave en el plano complejo
+        c_real = -0.8 + 0.2 * np.cos(2 * np.pi * t)
+        c_imag = 0.156 + 0.2 * np.sin(2 * np.pi * t)
+
+        out = os.path.join(output_dir, f"frame_{i:04d}.png")
+        julia(
+            c_real=c_real,
+            c_imag=c_imag,
+            width=width,
+            height=height,
+            max_iter=max_iter,
+            output_path=out,
+        )
+
+    return output_dir

@@ -1,8 +1,8 @@
-from fractals import julia
+from fractals import julia_animation
 
 def main():
-    path = julia(c_real=-0.285, c_imag=0.01)
-    print(f"Julia generado en {path}")
+    outdir = julia_animation(frames=120)
+    print(f"Frames Julia generado en: {outdir}")
 
 if __name__ == "__main__":
     main()
