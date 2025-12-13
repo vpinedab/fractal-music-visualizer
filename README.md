@@ -16,3 +16,21 @@ This project explores the connection between mathematical fractals and music by 
 app/        # Core application code
 Dockerfile # Container definition
 
+### Fractal generation
+
+The project implements fractal sets using the escape-time algorithm.
+Mandelbrot sets are used as an initial baseline to validate rendering and containerization,
+while Julia sets are used as the main visual component due to their sensitivity to parameter changes.
+
+## Project status
+
+- [x] Dockerized Python environment
+- [x] Static fractal generation (Mandelbrot)
+- [x] Animated fractal generation
+- [ ] Julia set implementation
+- [ ] Audio feature extraction
+- [ ] Audio-reactive visualization
+
+
+
+
