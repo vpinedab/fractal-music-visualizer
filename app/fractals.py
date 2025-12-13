@@ -81,7 +81,7 @@ def mandelbrot_zoom(
 
     # Qué tan lejos empiezas y qué tan cerca terminas
     zoom_start=1.0,
-    zoom_end=0.0001,
+    zoom_end=0.03,
 
     output_dir="assets/output/frames", # Carpeta donde se guardan los frames
 ):
@@ -127,3 +127,36 @@ def mandelbrot_zoom(
             y_max=y_max,
             output_path=output_path,
         )
+
+def julia(
+    c_real: float,
+    c_imag: float,
+    width: int=800,
+    height: int=600,
+    max_iter: int=150,
+    x_min: float=-1.5,
+    x_max: float=1.5,
+    y_min: float=-1.5,
+    y_max: float=1.5,
+    output_path: str = "assets/output/julia.png"
+) -> str:
+    x = np.linspace(x_min,x_max,width)
+    y = np.linspace(y_min,y_max,height)
+    X, Y = np.meshgrid(x,y)
+    Z = X + 1j * Y
+
+    # Parámetro fijo c
+    C = complex(c_real, c_imag)
+
+    img = np.zeros(Z.shape, dtype=np.uint8)
+
+    for i in range(max_iter):
+        mask = np.abs(Z)<=2
+        Z[mask] = Z[mask] ** 2 + C
+        escaped = mask & (np.abs(Z)>2)
+        img[escaped] = int( 255*i / max_iter)
+    
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    Image.fromarray(img, mode="L").save(output_path)
+    return output_path
+

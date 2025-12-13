@@ -1,8 +1,8 @@
-from fractals import mandelbrot_zoom
+from fractals import julia
 
 def main():
-    path = mandelbrot_zoom(frames=120)
-    print(f"Fractal generados")
+    path = julia(c_real=-0.285, c_imag=0.01)
+    print(f"Julia generado en {path}")
 
 if __name__ == "__main__":
     main()
