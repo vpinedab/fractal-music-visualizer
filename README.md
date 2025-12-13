@@ -15,6 +15,7 @@ This project explores the connection between mathematical fractals and music by 
 ```text
 app/        # Core application code
 Dockerfile # Container definition
+```
 
 ### Fractal generation
 
