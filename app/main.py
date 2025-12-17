@@ -1,24 +1,26 @@
-from audio_features import extract_rms, smooth
-from fractals import julia_audio_frames
+from audio_features import extract_features
+from fractals import JULIA_PRESETS, julia_audio_frames_2d
 
 def main():
-    audio_path = "assets/music/song.wav"  # o song.mp3
-    fps = 30
+    rms, cent, sr, duration = extract_features(
+        "assets/music/song.wav",
+        fps=30
+    )
 
-    rms, times, sr, duration = extract_rms(audio_path, fps=fps)
-    rms_s = smooth(rms, alpha=0.20)
+    preset = JULIA_PRESETS["calm"]  # o el nombre que estés usando
 
-    outdir = julia_audio_frames(
-        rms=rms_s,
+    julia_audio_frames_2d(
+        rms=rms,
+        cent=cent,
+        preset=preset,
         width=800,
         height=600,
-        max_iter=160,
         output_dir="assets/output/audio_frames",
     )
 
-    print(f"Audio duration: {duration:.2f}s | frames: {len(rms_s)} | fps: {fps}")
-    print(f"Frames generados en: {outdir}")
+    print("Frames:", len(rms), "Duration:", duration)
 
 if __name__ == "__main__":
     main()
+
 
