@@ -143,23 +143,149 @@ def _palette_fire(t: np.ndarray) -> np.ndarray:
 
 def _palette_ocean(t: np.ndarray) -> np.ndarray:
     """
-    Paleta 'sea': azul dominante, con acentos morados y verdes.
-    Vibra a mar (deep ocean + bioluminiscencia suave).
+    Calm / Ocean.
+    Azul dominante, suave, no agresiva.
     """
     t = np.clip(t, 0.0, 1.0).astype(np.float32)
 
     stops = np.array([
-        [ 10,  18,  40],  # deep navy (muy oscuro)
-        [ 12,  30,  80],  # azul marino
-        [ 40,  65, 140],  # azul océano (base dominante)
-        [ 85,  75, 150],  # morado frío (acentos, no domina)
-        [ 65, 105, 155],  # verde/teal (bioluminiscencia)
-        [160, 220, 210],  # espuma suave (highlight, no blanco)
+        [208, 238, 233],   # fondo --> Jagged Ice
+        [ 12,  30, 120],   # azul marino
+        [ 46, 110, 159],   # azul océano
+        [108,  75, 150],   # morado frío sutil
+        [ 65, 157, 141],   # bioluminiscencia suave
+        [160, 220, 210],   # highlight suave
+    ], dtype=np.float32)
+
+    x = np.linspace(0.0, 1.0, len(stops))
+    tf = t.ravel()
+
+    r = np.interp(tf, x, stops[:, 0])
+    g = np.interp(tf, x, stops[:, 1])
+    b = np.interp(tf, x, stops[:, 2])
+
+    return np.stack([r, g, b], axis=1).reshape(t.shape[0], t.shape[1], 3).astype(np.uint8)
+
+def _palette_deep_sea(t: np.ndarray) -> np.ndarray:
+    """
+    Deep Sea.
+    Oscura, profunda, sensación de abismo.
+    """
+    t = np.clip(t, 0.0, 1.0)
+
+    stops = np.array([
+        [  3,   8,  20],
+        [ 10,  25,  55],
+        [ 20,  60,  90],
+        [ 40, 100, 120],
+        [ 90, 160, 170],
+    ])
+
+    x = np.linspace(0, 1, len(stops))
+    tf = t.ravel()
+
+    rgb = np.stack([
+        np.interp(tf, x, stops[:, 0]),
+        np.interp(tf, x, stops[:, 1]),
+        np.interp(tf, x, stops[:, 2]),
+    ], axis=1)
+
+    return rgb.reshape(t.shape[0], t.shape[1], 3).astype(np.uint8)
+
+def _palette_ethereal(t: np.ndarray) -> np.ndarray:
+    """
+    Ethereal (center = flower color).
+    """
+    t = np.clip(t, 0.0, 1.0).astype(np.float32)
+
+    FLOWER_RGB = np.array([106, 85, 181], dtype=np.float32)  # <-- reemplaza
+
+    stops = np.array([
+        [212, 205, 213],      # fondo --> Gray Suit
+        [162, 46,  120],      # degradado alrededor del fractal --> Royal Health
+        FLOWER_RGB,           # <-- centro EXACTO (flor) --> Blue Violet
+        [157, 141, 215],      # cold purple
+        [186, 165, 194],      # london hue
     ], dtype=np.float32)
 
     x = np.linspace(0.0, 1.0, len(stops), dtype=np.float32)
-
     tf = t.ravel()
+
+    r = np.interp(tf, x, stops[:, 0])
+    g = np.interp(tf, x, stops[:, 1])
+    b = np.interp(tf, x, stops[:, 2])
+
+    rgb = np.stack([r, g, b], axis=1).reshape(t.shape[0], t.shape[1], 3)
+    return rgb.astype(np.uint8)
+
+def _palette_mathematical(t: np.ndarray) -> np.ndarray:
+    """
+    Mathematical (blue-black-white).
+    Estilo 'chalkboard' / ecuaciones con glow frío.
+    """
+    t = np.clip(t, 0.0, 1.0).astype(np.float32)
+
+    stops = np.array([
+        [  2,   4,  10],   # casi negro azulado
+        [  6,  12,  79],   # navy
+        [ 20,  55, 120],   # azul profundo
+        [ 90, 160, 230],   # azul claro tipo brillo
+        [235, 245, 255],   # blanco azulado (highlight)
+    ], dtype=np.float32)
+
+    x = np.linspace(0.0, 1.0, len(stops), dtype=np.float32)
+    tf = t.ravel()
+
+    r = np.interp(tf, x, stops[:, 0])
+    g = np.interp(tf, x, stops[:, 1])
+    b = np.interp(tf, x, stops[:, 2])
+
+    rgb = np.stack([r, g, b], axis=1).reshape(t.shape[0], t.shape[1], 3)
+    return rgb.astype(np.uint8)
+
+def _palette_abstract(t: np.ndarray) -> np.ndarray:
+    """
+    Abstract (kaleidoscope).
+    Neón controlado: morado + turquesa + amarillo.
+    """
+    t = np.clip(t, 0.0, 1.0).astype(np.float32)
+
+    stops = np.array([
+        [ 14,  32,  28],   # fondo muy oscuro (azul-morado)
+        [ 60,  35, 110],   # morado profundo
+        [ 40, 140, 160],   # turquesa brillante (contraste frío)
+        [180,  90, 210],   # morado luminoso
+        [245, 210,  90],   # amarillo cálido (highlight)
+    ], dtype=np.float32)
+
+    x = np.linspace(0.0, 1.0, len(stops), dtype=np.float32)
+    tf = t.ravel()
+
+    r = np.interp(tf, x, stops[:, 0])
+    g = np.interp(tf, x, stops[:, 1])
+    b = np.interp(tf, x, stops[:, 2])
+
+    rgb = np.stack([r, g, b], axis=1).reshape(t.shape[0], t.shape[1], 3)
+    return rgb.astype(np.uint8)
+
+def _palette_warm(t: np.ndarray) -> np.ndarray:
+    """
+    Warm.
+    Paleta cálida basada en rojos, naranjas y ámbar.
+    """
+    t = np.clip(t, 0.0, 1.0).astype(np.float32)
+
+    stops = np.array([
+        [ 28,  26,  40],   # #1A2C44  azul petróleo oscuro (inicio)
+        [ 89,  51,  78],   # #59334E  morado vino
+        [210,  77,  85],   # #D24D55  rojo coral
+        [218,  96,  38],   # #DA6026  naranja quemado
+        [255, 196,   4],   # #FFC404  amarillo cálido (highlight)
+    ], dtype=np.float32)
+
+    x = np.linspace(0.0, 1.0, len(stops), dtype=np.float32)
+    tf = t.ravel()
+
     r = np.interp(tf, x, stops[:, 0])
     g = np.interp(tf, x, stops[:, 1])
     b = np.interp(tf, x, stops[:, 2])
@@ -168,7 +294,25 @@ def _palette_ocean(t: np.ndarray) -> np.ndarray:
     return rgb.astype(np.uint8)
 
 
+PALETTES = {
+    "fire": _palette_fire,
+    "ocean": _palette_ocean,
+    "deep_sea": _palette_deep_sea,
+    "ethereal": _palette_ethereal,
+    "mathematical": _palette_mathematical,
+    "abstract": _palette_abstract,
+    "warm": _palette_warm,
+}
 
+INTERIOR_COLORS = {
+    "fire": (0, 0, 0),
+    "ocean": (205, 226, 235),
+    "deep_sea": (6, 12, 28),
+    "ethereal": (20,  11, 66), # --> Violet
+    "mathematical": (15, 24, 59),
+    "abstract": (6, 8, 22),
+    "warm": (18, 26, 40),
+}
 
 def julia(
     c_real: float,
@@ -219,17 +363,34 @@ def julia(
     # log(log∣z∣) para interpolar el escape “entre iteraciones”.
 
     # Normalización
-    t = nu / max_iter
+    t = np.zeros_like(nu, dtype=np.float32)
+
+    if esc.any():
+        nu_esc = nu[esc]
+
+        # Estiramiento de contraste robusto
+        p_lo, p_hi = np.percentile(nu_esc, [2, 98])
+        if p_hi - p_lo < 1e-6:
+            p_lo, p_hi = nu_esc.min(), nu_esc.max() + 1e-6
+
+        t[esc] = (nu_esc - p_lo) / (p_hi - p_lo)
+
     t = np.clip(t, 0.0, 1.0)
+    # Contraste adicional (realza estructura fina)
+    contrast = 1.25  # prueba: 1.1, 1.25, 1.4
+    t = np.clip((t - 0.5) * contrast + 0.5, 0.0, 1.0)
+
     t = t ** gamma
 
-    # Aplicar paleta
-    if palette == "ocean":
-        rgb = _palette_ocean(t)
-        rgb[alive] = (80, 200, 200)
-    else:
-        rgb = _palette_fire(t)
-        rgb[alive] = (0,0,0)
+
+    # Aplicar paleta (selector genérico)
+    pal_fn = PALETTES.get(palette, _palette_fire)
+    rgb = pal_fn(t)
+
+    # Interior / fondo (selector genérico)
+    interior = INTERIOR_COLORS.get(palette, (0, 0, 0))
+    rgb[alive] = interior
+
 
     # Guardar
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -242,30 +403,70 @@ JULIA_PRESETS = {
         "base_c_imag":  0.43,
         "amp_real": 0.12,
         "amp_imag": 0.06,
-        "max_iter": 220,
+        "max_iter": 400,
         "palette": "ocean",
         "gamma": 0.95,
         "view": (-1.2, 1.2, -1.0, 1.0), 
+    },
+    "deep_sea": {
+        "base_c_real": -0.75,
+        "base_c_imag":  0.12,
+        "amp_real": 0.08,
+        "amp_imag": 0.05,
+        "max_iter": 400,
+        "palette": "deep_sea",
+        "gamma": 1.05,
+        "view": (-1.4, 1.4, -1.2, 1.2),
+    },
+    "ethereal": {
+        "base_c_real": -0.55,
+        "base_c_imag":  0.48,
+        "amp_real": 0.18,
+        "amp_imag": 0.12,
+        "max_iter": 400,
+        "palette": "ethereal",
+        "gamma": 1.00,
+        "view": (-1.3, 1.3, -1.1, 1.1),
     },
     "energetic": {
         "base_c_real": -0.70,
         "base_c_imag":  0.27015,
         "amp_real": 0.65,
         "amp_imag": 0.55,
-        "max_iter": 200,
+        "max_iter": 400,
         "palette": "fire",
         "gamma": 0.85,
         "view": (-1.2, 1.2, -1.0, 1.0),
     },
-    "experimental": {
+    "mathematical": {
         "base_c_real": -0.40,
         "base_c_imag":  0.60,
-        "amp_real": 0.65,
-        "amp_imag": 0.55,
-        "max_iter": 240,
-        "palette": "fire",
-        "gamma": 0.80,
-        "view": (-1.2, 1.2, -1.0, 1.0),
+        "amp_real": 0.05,
+        "amp_imag": 0.05,
+        "max_iter": 400,
+        "palette": "mathematical",
+        "gamma": 1.10,
+        "view": (-1.35, 1.35, -1.35, 1.35),
+    },
+    "abstract": {
+        "base_c_real": -0.40,      # antes -0.30  -> un poco menos caótico
+        "base_c_imag":  0.64,      # casi igual
+        "amp_real": 0.25,          # antes 0.55   -> baja para que no “rompa” el patrón
+        "amp_imag": 0.30,          # antes 0.65   -> baja para estabilidad visual
+        "max_iter": 400,           # antes 220    -> más detalle, más “filigrana”
+        "palette": "abstract",
+        "gamma": 0.78,             # antes 0.90   -> más vivo (levanta tonos medios)
+        "view": (-1.35, 1.35, -1.05, 1.05),  # antes más grande -> un poco de zoom
+    },
+    "warm": {
+        "base_c_real": -0.68,
+        "base_c_imag":  0.22,
+        "amp_real": 0.25,
+        "amp_imag": 0.18,
+        "max_iter": 400,
+        "palette": "warm",
+        "gamma": 0.95,
+        "view": (-1.3, 1.3, -1.1, 1.1),
     },
 }
 
@@ -283,7 +484,7 @@ def julia_audio_frames_2d(
 
     x_min, x_max, y_min, y_max = preset["view"]
 
-    max_delta = 0.008  # prueba: 0.005, 0.008, 0.012
+    max_delta = 0.006 # prueba: 0.005, 0.008, 0.012
 
     prev_real = None
     prev_imag = None

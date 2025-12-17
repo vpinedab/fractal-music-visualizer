@@ -4,10 +4,10 @@ from fractals import JULIA_PRESETS, julia_audio_frames_2d
 def main():
     rms, cent, sr, duration = extract_features(
         "assets/music/song.wav",
-        fps=30
+        fps=60
     )
 
-    preset = JULIA_PRESETS["calm"]  # o el nombre que estés usando
+    preset = JULIA_PRESETS["abstract"]  # o el nombre que estés usando
 
     julia_audio_frames_2d(
         rms=rms,
