@@ -6,11 +6,17 @@ def _norm01_robust(x: np.ndarray) -> np.ndarray:
     x = np.clip(x, p5, p95)
     return (x - x.min()) / (x.max() - x.min() + 1e-12)
 
-def smooth(x: np.ndarray, alpha: float = 0.15) -> np.ndarray:
+def smooth_ar(x: np.ndarray, alpha_up: float, alpha_down: float) -> np.ndarray:
+    """
+    Attack/Release smoothing:
+    - Si x sube: usa alpha_up (reacciona más rápido)
+    - Si x baja: usa alpha_down (baja más lento)
+    """
     out = np.empty_like(x)
     out[0] = x[0]
     for i in range(1, len(x)):
-        out[i] = alpha * x[i] + (1 - alpha) * out[i - 1]
+        a = alpha_up if x[i] > out[i-1] else alpha_down
+        out[i] = a * x[i] + (1 - a) * out[i-1]
     return out
 
 def extract_features(audio_path: str, fps: int = 30):
@@ -34,9 +40,8 @@ def extract_features(audio_path: str, fps: int = 30):
     rms_n = _norm01_robust(rms)
     cent_n = _norm01_robust(cent)
 
-    # ✅ Más suave / lento:
-    rms_s  = smooth(rms_n,  alpha=0.08)  # antes 0.12
-    cent_s = smooth(cent_n, alpha=0.03)  # antes 0.06 (cent es más nervioso)
+    rms_s  = smooth_ar(rms_n,  alpha_up=0.10, alpha_down=0.04)
+    cent_s = smooth_ar(cent_n, alpha_up=0.06, alpha_down=0.02)
 
     duration = len(y) / sr
     return rms_s, cent_s, sr, duration

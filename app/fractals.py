@@ -484,7 +484,8 @@ def julia_audio_frames_2d(
 
     x_min, x_max, y_min, y_max = preset["view"]
 
-    max_delta = 0.006 # prueba: 0.005, 0.008, 0.012
+    alpha_c = 0.12   # prueba: 0.08 – 0.18
+    drift = 0.0006
 
     prev_real = None
     prev_imag = None
@@ -493,16 +494,24 @@ def julia_audio_frames_2d(
         c_real = preset["base_c_real"] + preset["amp_real"] * (a - 0.5)
         c_imag = preset["base_c_imag"] + preset["amp_imag"] * (b - 0.5)
 
-        if prev_real is not None:
-            c_real = prev_real + np.clip(c_real - prev_real, -max_delta, max_delta)
-            c_imag = prev_imag + np.clip(c_imag - prev_imag, -max_delta, max_delta)
+        # --- INERCIA (movimiento continuo) ---
+        if prev_real is None:
+            c_real_s, c_imag_s = c_real, c_imag
+        else:
+            c_real_s = prev_real + alpha_c * (c_real - prev_real)
+            c_imag_s = prev_imag + alpha_c * (c_imag - prev_imag)
 
-        prev_real, prev_imag = c_real, c_imag
+        # --- MICRO DRIFT (vida constante) ---
+        drift = 0.0006
+        c_real_s += drift * np.sin(2 * np.pi * i / 240.0)
+        c_imag_s += drift * np.cos(2 * np.pi * i / 240.0)
+
+        prev_real, prev_imag = c_real_s, c_imag_s
        
         out = os.path.join(output_dir, f"frame_{i:04d}.png")
         julia(
-            c_real=c_real,
-            c_imag=c_imag,
+            c_real=c_real_s,
+            c_imag=c_imag_s,
             width=width,
             height=height,
             max_iter=preset["max_iter"],
