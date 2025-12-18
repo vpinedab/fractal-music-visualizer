@@ -45,3 +45,47 @@ def extract_features(audio_path: str, fps: int = 30):
 
     duration = len(y) / sr
     return rms_s, cent_s, sr, duration
+
+def audio_profile(audio_path: str, fps: int = 60) -> dict:
+    """
+    Devuelve métricas globales del audio para elegir preset.
+    - energy_* proviene de RMS
+    - bright_* proviene de spectral centroid
+    """
+    # Reusa tu pipeline existente
+    rms, cent, sr, duration = extract_features(audio_path, fps=fps)
+
+    # Estadísticos robustos
+    e_mean = float(np.mean(rms))
+    e_std  = float(np.std(rms))
+    e_p90  = float(np.percentile(rms, 90))
+    e_p10  = float(np.percentile(rms, 10))
+    e_dyn  = float(e_p90 - e_p10)  # rango dinámico robusto
+    e_spiky = float(np.mean(rms > np.percentile(rms, 95)))  # proporción de picos
+
+    b_mean = float(np.mean(cent))
+    b_std  = float(np.std(cent))
+    b_p90  = float(np.percentile(cent, 90))
+
+    # Tempo (opcional, pero útil para "energetic")
+    y, _sr = librosa.load(audio_path, sr=sr, mono=True)
+    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    tempo = float(tempo)
+
+    return {
+        "duration": float(duration),
+        "sr": int(sr),
+        "fps": int(fps),
+
+        "energy_mean": e_mean,
+        "energy_std": e_std,
+        "energy_p90": e_p90,
+        "energy_dyn": e_dyn,
+        "energy_spiky": e_spiky,
+
+        "bright_mean": b_mean,
+        "bright_std": b_std,
+        "bright_p90": b_p90,
+
+        "tempo": tempo,
+    }
