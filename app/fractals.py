@@ -69,7 +69,6 @@ def mandelbrot( # Fractal configuration
     image = np.zeros(C.shape, dtype=np.uint8)
 
     # Iteración del fractal
-    for i in range(max_iter):
         # Crear la mascara
         mask = np.abs(Z) <= 2
         # Selecciona los puntos que todavía no han escapado
