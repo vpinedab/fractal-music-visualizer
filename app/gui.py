@@ -38,17 +38,17 @@ class FractalMusicGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Fractal Music Visualizer")
-        self.root.geometry("1200x1100")
+        
+        # Set window to a reasonable default size
+        self.root.geometry("2100x1500")
         self.root.resizable(True, True)
-
-        # Configure style
-        self.setup_style()
 
         # State
         self.current_audio_path = None
         self.audio_info = {}
         self.generation_thread = None
         self.is_generating = False
+        self.generation_cancelled = False  # Flag to cancel generation
         self.message_queue = queue.Queue()
 
         # Customization settings
@@ -82,6 +82,7 @@ class FractalMusicGUI:
             'trim_enabled': tk.BooleanVar(value=False),  # Enable audio trimming
             'trim_start': tk.DoubleVar(value=0.0),  # Start time in seconds
             'trim_end': tk.DoubleVar(value=10.0),  # End time in seconds
+            'normalize_audio': tk.BooleanVar(value=False),  # Normalize audio volume
             'fractal_type': tk.StringVar(value='julia'),  # Fractal type: 'julia' or 'ifs'
             'ifs_preset': tk.StringVar(value='barnsley_fern'),  # IFS preset name
         }
@@ -96,6 +97,15 @@ class FractalMusicGUI:
             '2560x1440': (2560, 1440), # 2K/QHD
             '3840x2160': (3840, 2160), # 4K/UHD
         }
+
+        # Basic style setup
+        self.style = ttk.Style()
+        self.style.theme_use('clam')
+        # Simple style configurations
+        self.style.configure('Title.TLabel', font=('Segoe UI', 20, 'bold'))
+        self.style.configure('Heading.TLabel', font=('Segoe UI', 11, 'bold'))
+        self.style.configure('Info.TLabel', font=('Segoe UI', 9))
+        self.style.configure('Custom.TButton', font=('Segoe UI', 10))
 
         # Check for messages from background threads
         self.root.after(100, self.check_queue)
@@ -118,17 +128,6 @@ class FractalMusicGUI:
         if quality in quality_iterations:
             self.settings['max_iterations'].set(quality_iterations[quality])
 
-    def setup_style(self):
-        """Configure modern styling."""
-        style = ttk.Style()
-        style.theme_use('clam')
-
-        # Configure colors
-        style.configure('Title.TLabel', font=('Segoe UI', 20, 'bold'), foreground='#2c3e50')
-        style.configure('Heading.TLabel', font=('Segoe UI', 11, 'bold'), foreground='#34495e')
-        style.configure('Info.TLabel', font=('Segoe UI', 9), foreground='#7f8c8d')
-        style.configure('Custom.TButton', font=('Segoe UI', 10))
-
     def setup_ui(self):
         """Create the main UI layout."""
         # Main container
@@ -138,18 +137,17 @@ class FractalMusicGUI:
         self.root.rowconfigure(0, weight=1)
         main_container.columnconfigure(1, weight=1)
 
-        # Title
-        title_label = ttk.Label(
-            main_container,
-            text="🎵 Fractal Music Visualizer 🎨",
-            style='Title.TLabel'
-        )
-        title_label.grid(row=0, column=0, columnspan=2, pady=(0, 20))
-
+        # Title (centered at top)
+        title_frame = ttk.Frame(main_container)
+        title_frame.grid(row=0, column=0, columnspan=2, pady=(0, 20), sticky=(tk.W, tk.E))
+        title_frame.columnconfigure(0, weight=1)
+        title_frame.columnconfigure(1, weight=1)
+        title_frame.columnconfigure(2, weight=1)
+        
         # Small fractal type selection buttons (top left and right)
         # Julia Sets button (top left) - light blue
         self.julia_btn = tk.Button(
-            main_container,
+            title_frame,
             text="Julia",
             font=('Segoe UI', 10),
             bg='#87CEEB',
@@ -162,11 +160,19 @@ class FractalMusicGUI:
             pady=5,
             command=lambda: self.select_fractal_type('julia')
         )
-        self.julia_btn.grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
+        self.julia_btn.grid(row=0, column=0, sticky=tk.W)
+
+        # Title label (centered)
+        title_label = ttk.Label(
+            title_frame,
+            text="🎵 Fractal Music Visualizer 🎨",
+            style='Title.TLabel'
+        )
+        title_label.grid(row=0, column=1, sticky=tk.N+tk.S)
 
         # IFS button (top right) - light blue
         self.ifs_btn = tk.Button(
-            main_container,
+            title_frame,
             text="IFS",
             font=('Segoe UI', 10),
             bg='#87CEEB',
@@ -179,7 +185,7 @@ class FractalMusicGUI:
             pady=5,
             command=lambda: self.select_fractal_type('ifs')
         )
-        self.ifs_btn.grid(row=0, column=1, sticky=tk.E, padx=(10, 0))
+        self.ifs_btn.grid(row=0, column=2, sticky=tk.E)
 
         # Update button appearance based on current selection
         self.update_fractal_type_buttons()
@@ -218,12 +224,18 @@ class FractalMusicGUI:
     def update_fractal_type_buttons(self):
         """Update the appearance of fractal type selection buttons."""
         fractal_type = self.settings['fractal_type'].get()
+        
+        active_bg = '#6BB6FF'
+        inactive_bg = '#87CEEB'
+        active_fg = 'white'
+        inactive_fg = 'black'
+        
         if fractal_type == 'julia':
-            self.julia_btn.config(bg='#6BB6FF', relief=tk.SUNKEN, bd=2, fg='white')
-            self.ifs_btn.config(bg='#87CEEB', relief=tk.RAISED, bd=2, fg='black')
+            self.julia_btn.config(bg=active_bg, relief=tk.SUNKEN, bd=2, fg=active_fg)
+            self.ifs_btn.config(bg=inactive_bg, relief=tk.RAISED, bd=2, fg=inactive_fg)
         else:  # ifs
-            self.julia_btn.config(bg='#87CEEB', relief=tk.RAISED, bd=2, fg='black')
-            self.ifs_btn.config(bg='#6BB6FF', relief=tk.SUNKEN, bd=2, fg='white')
+            self.julia_btn.config(bg=inactive_bg, relief=tk.RAISED, bd=2, fg=inactive_fg)
+            self.ifs_btn.config(bg=active_bg, relief=tk.SUNKEN, bd=2, fg=active_fg)
 
     def update_fractal_controls_visibility(self):
         """Show/hide controls based on selected fractal type (tab behavior)."""
@@ -249,13 +261,10 @@ class FractalMusicGUI:
                 self.c_real_label_widget.grid_remove()
                 self.c_imag_label_widget.grid_remove()
                 self.rotation_check.grid_remove()
-                # Hide Julia rotation frame
-                for widget in self.formula_frame.winfo_children():
-                    if isinstance(widget, ttk.Frame) and widget != self.ifs_preset_frame and widget != self.ifs_rotation_frame:
-                        # Check if it's a Julia control frame
-                        widget_info = widget.grid_info()
-                        if widget_info.get('row', -1) >= 1:  # Julia controls start at row 1
-                            widget.grid_remove()
+                # Hide Julia control frames
+                if hasattr(self, 'julia_control_frames'):
+                    for frame in self.julia_control_frames:
+                        frame.grid_remove()
             else:  # julia
                 # Show Julia-specific controls
                 self.power_label_widget.grid()
@@ -264,16 +273,15 @@ class FractalMusicGUI:
                 self.c_real_label_widget.grid()
                 self.c_imag_label_widget.grid()
                 self.rotation_check.grid()
-                # Show all Julia frames in formula_frame
-                for widget in self.formula_frame.winfo_children():
-                    if isinstance(widget, ttk.Frame) and widget != self.ifs_preset_frame and widget != self.ifs_rotation_frame:
-                        widget_info = widget.grid_info()
-                        if widget_info.get('row', -1) >= 1:  # Julia controls start at row 1
-                            widget.grid()
+                # Show all Julia control frames
+                if hasattr(self, 'julia_control_frames'):
+                    for frame in self.julia_control_frames:
+                        frame.grid()
 
     def select_ifs_preset(self, preset_key):
         """Select an IFS preset and update button appearance."""
         self.settings['ifs_preset'].set(preset_key)
+        
         # Update button appearances
         for key, btn in self.ifs_preset_buttons.items():
             if key == preset_key:
@@ -493,40 +501,79 @@ class FractalMusicGUI:
         intensity_frame.columnconfigure(1, weight=1)
         intensity_scale = ttk.Scale(intensity_frame, from_=0.1, to=20.0, variable=self.settings['intensity'],
                                     orient=tk.HORIZONTAL, length=200)
-        intensity_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
+        intensity_scale.grid(row=0, column=1, sticky=(tk.W, tk.E))
         self.intensity_label = ttk.Label(intensity_frame, text="1.0x", style='Info.TLabel', width=5)
-        self.intensity_label.grid(row=0, column=1, padx=(5, 0))
+        self.intensity_label.grid(row=0, column=2, padx=(5, 5))
         intensity_scale.configure(command=lambda v: self.intensity_label.config(text=f"{float(v):.1f}x"))
+        # Fine adjustment buttons for Audio Sensitivity
+        def adjust_intensity(step):
+            current = self.settings['intensity'].get()
+            new_val = max(0.1, min(20.0, current + step))
+            self.settings['intensity'].set(new_val)
+        ttk.Button(intensity_frame, text="-", width=2, command=lambda: adjust_intensity(-0.1)).grid(row=0, column=0, padx=(0, 5))
+        ttk.Button(intensity_frame, text="+", width=2, command=lambda: adjust_intensity(0.1)).grid(row=0, column=3, padx=(5, 0))
+
+        # Audio Normalization
+        normalize_check = ttk.Checkbutton(
+            audio_settings_frame,
+            text="Normalize Audio (reduces clipping for better visualization)",
+            variable=self.settings['normalize_audio']
+        )
+        normalize_check.grid(row=1, column=0, columnspan=2, sticky=tk.W, pady=(10, 5))
 
         # Audio Trimming Controls (moved from file section)
         trim_check = ttk.Checkbutton(audio_settings_frame, text="Enable Trimming",
                                      variable=self.settings['trim_enabled'],
                                      command=lambda: self.update_trim_controls())
-        trim_check.grid(row=1, column=0, columnspan=2, sticky=tk.W, pady=(10, 5))
+        trim_check.grid(row=2, column=0, columnspan=2, sticky=tk.W, pady=(10, 5))
 
         # Start time
-        ttk.Label(audio_settings_frame, text="Start Time (s):", style='Heading.TLabel').grid(row=2, column=0, sticky=tk.W, padx=(0, 10), pady=5)
+        ttk.Label(audio_settings_frame, text="Start Time (s):", style='Heading.TLabel').grid(row=3, column=0, sticky=tk.W, padx=(0, 10), pady=5)
         start_frame = ttk.Frame(audio_settings_frame)
-        start_frame.grid(row=2, column=1, sticky=(tk.W, tk.E), pady=5)
+        start_frame.grid(row=3, column=1, sticky=(tk.W, tk.E), pady=5)
+        start_frame.columnconfigure(1, weight=1)
         start_scale = ttk.Scale(start_frame, from_=0.0, to=60.0, variable=self.settings['trim_start'],
                                 orient=tk.HORIZONTAL, length=200, state='disabled')
-        start_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
+        start_scale.grid(row=0, column=1, sticky=(tk.W, tk.E))
         self.trim_start_label = ttk.Label(start_frame, text="0.0s", style='Info.TLabel', width=8)
-        self.trim_start_label.grid(row=0, column=1, padx=(10, 0))
+        self.trim_start_label.grid(row=0, column=2, padx=(5, 5))
         start_scale.configure(command=lambda v: self.update_trim_labels())
         self.trim_start_scale = start_scale
+        # Fine adjustment buttons for Start Time
+        def adjust_start_time(step):
+            current = self.settings['trim_start'].get()
+            max_val = self.audio_duration if hasattr(self, 'audio_duration') and self.audio_duration > 0 else 60.0
+            new_val = max(0.0, min(max_val, current + step))
+            self.settings['trim_start'].set(new_val)
+            self.update_trim_labels()
+        self.trim_start_minus_btn = ttk.Button(start_frame, text="-", width=2, command=lambda: adjust_start_time(-0.1), state='disabled')
+        self.trim_start_minus_btn.grid(row=0, column=0, padx=(0, 5))
+        self.trim_start_plus_btn = ttk.Button(start_frame, text="+", width=2, command=lambda: adjust_start_time(0.1), state='disabled')
+        self.trim_start_plus_btn.grid(row=0, column=3, padx=(5, 0))
 
         # End time
-        ttk.Label(audio_settings_frame, text="End Time (s):", style='Heading.TLabel').grid(row=3, column=0, sticky=tk.W, padx=(0, 10), pady=5)
+        ttk.Label(audio_settings_frame, text="End Time (s):", style='Heading.TLabel').grid(row=4, column=0, sticky=tk.W, padx=(0, 10), pady=5)
         end_frame = ttk.Frame(audio_settings_frame)
-        end_frame.grid(row=3, column=1, sticky=(tk.W, tk.E), pady=5)
+        end_frame.grid(row=4, column=1, sticky=(tk.W, tk.E), pady=5)
+        end_frame.columnconfigure(1, weight=1)
         end_scale = ttk.Scale(end_frame, from_=0.0, to=60.0, variable=self.settings['trim_end'],
                              orient=tk.HORIZONTAL, length=200, state='disabled')
-        end_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
+        end_scale.grid(row=0, column=1, sticky=(tk.W, tk.E))
         self.trim_end_label = ttk.Label(end_frame, text="10.0s", style='Info.TLabel', width=8)
-        self.trim_end_label.grid(row=0, column=1, padx=(10, 0))
+        self.trim_end_label.grid(row=0, column=2, padx=(5, 5))
         end_scale.configure(command=lambda v: self.update_trim_labels())
         self.trim_end_scale = end_scale
+        # Fine adjustment buttons for End Time
+        def adjust_end_time(step):
+            current = self.settings['trim_end'].get()
+            max_val = self.audio_duration if hasattr(self, 'audio_duration') and self.audio_duration > 0 else 60.0
+            new_val = max(0.0, min(max_val, current + step))
+            self.settings['trim_end'].set(new_val)
+            self.update_trim_labels()
+        self.trim_end_minus_btn = ttk.Button(end_frame, text="-", width=2, command=lambda: adjust_end_time(-0.1), state='disabled')
+        self.trim_end_minus_btn.grid(row=0, column=0, padx=(0, 5))
+        self.trim_end_plus_btn = ttk.Button(end_frame, text="+", width=2, command=lambda: adjust_end_time(0.1), state='disabled')
+        self.trim_end_plus_btn.grid(row=0, column=3, padx=(5, 0))
 
         # Fractal Formula (Julia-specific controls)
         self.formula_frame = ttk.LabelFrame(parent, text="Fractal Formula", padding="12")
@@ -592,11 +639,15 @@ class FractalMusicGUI:
         self.ifs_rotation_check.grid_remove()
         self.ifs_rotation_frame.grid_remove()
 
+        # Store Julia control frames for proper show/hide
+        self.julia_control_frames = []
+
         # Left column (column 0-1) - Julia sets controls
         self.power_label_widget = ttk.Label(self.formula_frame, text="Power (z^p + c):", style='Heading.TLabel')
-        self.power_label_widget.grid(row=1, column=0, sticky=tk.W, padx=(0, 10), pady=5)
+        self.power_label_widget.grid(row=4, column=0, sticky=tk.W, padx=(0, 10), pady=5)
         power_frame = ttk.Frame(self.formula_frame)
-        power_frame.grid(row=1, column=1, sticky=tk.W, pady=5)
+        power_frame.grid(row=4, column=1, sticky=tk.W, pady=5)
+        self.julia_control_frames.append(power_frame)
         power_scale = ttk.Scale(power_frame, from_=1.0, to=10.0, variable=self.settings['power'],
                                 orient=tk.HORIZONTAL, length=200)
         power_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
@@ -606,9 +657,10 @@ class FractalMusicGUI:
 
         # Z offset sliders - left column
         self.z_real_label_widget = ttk.Label(self.formula_frame, text="Z Offset (Real):", style='Heading.TLabel')
-        self.z_real_label_widget.grid(row=2, column=0, sticky=tk.W, padx=(0, 10), pady=5)
+        self.z_real_label_widget.grid(row=5, column=0, sticky=tk.W, padx=(0, 10), pady=5)
         z_real_frame = ttk.Frame(self.formula_frame)
-        z_real_frame.grid(row=2, column=1, sticky=tk.W, pady=5)
+        z_real_frame.grid(row=5, column=1, sticky=tk.W, pady=5)
+        self.julia_control_frames.append(z_real_frame)
         z_real_scale = ttk.Scale(z_real_frame, from_=-2.0, to=2.0, variable=self.settings['z_real'],
                                  orient=tk.HORIZONTAL, length=200)
         z_real_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
@@ -617,9 +669,10 @@ class FractalMusicGUI:
         z_real_scale.configure(command=lambda v: self.z_real_label.config(text=f"{float(v):.2f}"))
 
         self.z_imag_label_widget = ttk.Label(self.formula_frame, text="Z Offset (Imag):", style='Heading.TLabel')
-        self.z_imag_label_widget.grid(row=3, column=0, sticky=tk.W, padx=(0, 10), pady=5)
+        self.z_imag_label_widget.grid(row=6, column=0, sticky=tk.W, padx=(0, 10), pady=5)
         z_imag_frame = ttk.Frame(self.formula_frame)
-        z_imag_frame.grid(row=3, column=1, sticky=tk.W, pady=5)
+        z_imag_frame.grid(row=6, column=1, sticky=tk.W, pady=5)
+        self.julia_control_frames.append(z_imag_frame)
         z_imag_scale = ttk.Scale(z_imag_frame, from_=-2.0, to=2.0, variable=self.settings['z_imag'],
                                  orient=tk.HORIZONTAL, length=200)
         z_imag_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
@@ -629,9 +682,10 @@ class FractalMusicGUI:
 
         # Right column (column 2-3)
         self.c_real_label_widget = ttk.Label(self.formula_frame, text="C Base (Real):", style='Heading.TLabel')
-        self.c_real_label_widget.grid(row=1, column=2, sticky=tk.W, padx=(20, 10), pady=5)
+        self.c_real_label_widget.grid(row=4, column=2, sticky=tk.W, padx=(20, 10), pady=5)
         c_real_frame = ttk.Frame(self.formula_frame)
-        c_real_frame.grid(row=1, column=3, sticky=tk.W, pady=5)
+        c_real_frame.grid(row=4, column=3, sticky=tk.W, pady=5)
+        self.julia_control_frames.append(c_real_frame)
         c_real_scale = ttk.Scale(c_real_frame, from_=-2.0, to=2.0, variable=self.settings['c_base_real'],
                                   orient=tk.HORIZONTAL, length=200)
         c_real_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
@@ -640,9 +694,10 @@ class FractalMusicGUI:
         c_real_scale.configure(command=lambda v: self.c_real_label.config(text=f"{float(v):.2f}"))
 
         self.c_imag_label_widget = ttk.Label(self.formula_frame, text="C Base (Imag):", style='Heading.TLabel')
-        self.c_imag_label_widget.grid(row=2, column=2, sticky=tk.W, padx=(20, 10), pady=5)
+        self.c_imag_label_widget.grid(row=5, column=2, sticky=tk.W, padx=(20, 10), pady=5)
         c_imag_frame = ttk.Frame(self.formula_frame)
-        c_imag_frame.grid(row=2, column=3, sticky=tk.W, pady=5)
+        c_imag_frame.grid(row=5, column=3, sticky=tk.W, pady=5)
+        self.julia_control_frames.append(c_imag_frame)
         c_imag_scale = ttk.Scale(c_imag_frame, from_=-2.0, to=2.0, variable=self.settings['c_base_imag'],
                                  orient=tk.HORIZONTAL, length=200)
         c_imag_scale.grid(row=0, column=0, sticky=(tk.W, tk.E))
@@ -653,10 +708,11 @@ class FractalMusicGUI:
         # Rotation controls - span both columns (Julia)
         self.rotation_check = ttk.Checkbutton(self.formula_frame, text="Enable Rotation",
                                         variable=self.settings['rotation_enabled'])
-        self.rotation_check.grid(row=3, column=2, sticky=tk.W, padx=(20, 10), pady=5)
+        self.rotation_check.grid(row=6, column=2, sticky=tk.W, padx=(20, 10), pady=5)
 
         rotation_frame = ttk.Frame(self.formula_frame)
-        rotation_frame.grid(row=3, column=3, sticky=tk.W, pady=5)
+        rotation_frame.grid(row=6, column=3, sticky=tk.W, pady=5)
+        self.julia_control_frames.append(rotation_frame)
         ttk.Label(rotation_frame, text="Rotations/sec:", style='Heading.TLabel').grid(row=0, column=0, sticky=tk.W, padx=(0, 10))
         rotation_scale = ttk.Scale(rotation_frame, from_=-1.0, to=1.0, variable=self.settings['rotation_velocity'],
                                   orient=tk.HORIZONTAL, length=150)
@@ -755,7 +811,25 @@ class FractalMusicGUI:
         """Setup generation and playback controls."""
         controls_frame = ttk.Frame(parent, padding="10")
         controls_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(10, 0))
-        controls_frame.columnconfigure(1, weight=1)
+        controls_frame.columnconfigure(0, weight=1)  # Make progress bar column expandable
+
+        # Progress bar with green color - placed above buttons
+        self.progress_var = tk.DoubleVar()
+        style = ttk.Style()
+        style.configure("Green.Horizontal.TProgressbar", 
+                       background='#4CAF50', 
+                       troughcolor='#e0e0e0',
+                       borderwidth=0,
+                       lightcolor='#66BB6A',
+                       darkcolor='#388E3C')
+        self.progress_bar = ttk.Progressbar(
+            controls_frame,
+            variable=self.progress_var,
+            maximum=100,
+            mode='determinate',
+            style="Green.Horizontal.TProgressbar"
+        )
+        self.progress_bar.grid(row=0, column=0, columnspan=4, sticky=(tk.W, tk.E), pady=(0, 10))
 
         # Generate button
         self.generate_btn = ttk.Button(
@@ -763,20 +837,20 @@ class FractalMusicGUI:
             text="🎬 Generate Video",
             command=self.start_generation,
             style='Custom.TButton',
-            width=20
+            width=18
         )
-        self.generate_btn.grid(row=0, column=0, padx=(0, 10))
+        self.generate_btn.grid(row=1, column=0, padx=(0, 10))
 
-        # Progress bar
-        self.progress_var = tk.DoubleVar()
-        self.progress_bar = ttk.Progressbar(
+        # Stop button (initially disabled)
+        self.stop_btn = ttk.Button(
             controls_frame,
-            variable=self.progress_var,
-            maximum=100,
-            mode='determinate',
-            length=400
+            text="⏹ Stop",
+            command=self.stop_generation,
+            style='Custom.TButton',
+            state="disabled",
+            width=12
         )
-        self.progress_bar.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(0, 10))
+        self.stop_btn.grid(row=1, column=1, padx=(0, 10))
 
         # Play button
         self.play_btn = ttk.Button(
@@ -787,7 +861,7 @@ class FractalMusicGUI:
             state="disabled",
             width=15
         )
-        self.play_btn.grid(row=0, column=2)
+        self.play_btn.grid(row=1, column=2)
 
         # Status (moved to separate row to avoid overlap)
         status_frame = ttk.Frame(parent)
@@ -940,6 +1014,22 @@ class FractalMusicGUI:
 
                     audio_name = Path(video_info.get('audio_file', '')).stem
                     title = video_info.get('title', 'Untitled')
+                    
+                    # Get fractal type for display
+                    settings = video_info.get('settings', {})
+                    fractal_type = settings.get('fractal_type', 'julia')
+                    if fractal_type == 'ifs':
+                        ifs_preset = settings.get('ifs_preset', 'barnsley_fern')
+                        # Format IFS preset name nicely
+                        ifs_names = {
+                            'barnsley_fern': 'Barnsley Fern',
+                            'sierpinski': 'Sierpinski',
+                            'dragon': 'Dragon',
+                            'spiral': 'Spiral'
+                        }
+                        fractal_display = ifs_names.get(ifs_preset, ifs_preset)
+                    else:
+                        fractal_display = 'Julia Set'
 
                     info_frame = ttk.Frame(content_container)
                     info_frame.grid(row=0, column=1, sticky=(tk.W, tk.E, tk.N), padx=(0, 5))
@@ -951,11 +1041,14 @@ class FractalMusicGUI:
                     duration_label = ttk.Label(info_frame, text=f"Duration: {duration_str}", font=('Segoe UI', 11))
                     duration_label.grid(row=1, column=0, sticky=tk.W)
 
+                    fractal_label = ttk.Label(info_frame, text=f"Type: {fractal_display}", font=('Segoe UI', 10), foreground='#666666')
+                    fractal_label.grid(row=2, column=0, sticky=tk.W)
+
                     audio_label = ttk.Label(info_frame, text=f"Audio: {audio_name[:20]}...", font=('Segoe UI', 10))
-                    audio_label.grid(row=2, column=0, sticky=tk.W)
+                    audio_label.grid(row=3, column=0, sticky=tk.W)
 
                     date_label = ttk.Label(info_frame, text=f"{date_str}", font=('Segoe UI', 10))
-                    date_label.grid(row=3, column=0, sticky=tk.W)
+                    date_label.grid(row=4, column=0, sticky=tk.W)
 
                     # Delete button (smaller height)
                     delete_btn = ttk.Button(item_frame, text="🗑", width=2,
@@ -1161,7 +1254,8 @@ class FractalMusicGUI:
             duration = len(y) / sr
 
             # Get audio profile
-            prof = audio_profile(str(self.current_audio_path), fps=self.settings['fps'].get())
+            normalize = self.settings['normalize_audio'].get()
+            prof = audio_profile(str(self.current_audio_path), fps=self.settings['fps'].get(), normalize=normalize)
 
             # Update info labels
             self.info_labels['name'].config(text=self.current_audio_path.name)
@@ -1258,6 +1352,12 @@ class FractalMusicGUI:
         if hasattr(self, 'trim_start_scale'):
             self.trim_start_scale.config(state=state)
             self.trim_end_scale.config(state=state)
+            # Also enable/disable fine adjustment buttons
+            if hasattr(self, 'trim_start_minus_btn'):
+                self.trim_start_minus_btn.config(state=state)
+                self.trim_start_plus_btn.config(state=state)
+                self.trim_end_minus_btn.config(state=state)
+                self.trim_end_plus_btn.config(state=state)
 
     def update_trim_labels(self):
         """Update trim labels with current values."""
@@ -1285,6 +1385,7 @@ class FractalMusicGUI:
         has_video = self.selected_video is not None
 
         self.generate_btn.config(state="normal" if has_audio and not self.is_generating else "disabled")
+        self.stop_btn.config(state="normal" if self.is_generating else "disabled")
         self.play_btn.config(state="normal" if has_video else "disabled")
 
     def start_generation(self):
@@ -1303,7 +1404,9 @@ class FractalMusicGUI:
             return
 
         self.is_generating = True
+        self.generation_cancelled = False
         self.generate_btn.config(state="disabled")
+        self.stop_btn.config(state="normal")
         self.play_btn.config(state="disabled")
         self.progress_var.set(0)
         self.status_var.set("Analyzing audio...")
@@ -1316,9 +1419,21 @@ class FractalMusicGUI:
         )
         self.generation_thread.start()
 
+    def stop_generation(self):
+        """Stop video generation."""
+        if self.is_generating:
+            self.generation_cancelled = True
+            self.message_queue.put(("status", "Stopping generation..."))
+
     def generate_video_worker(self, audio_path: Path, video_title: str = None):
         """Worker function that runs in background thread to generate video."""
         try:
+            # Check if cancelled before starting
+            if self.generation_cancelled:
+                self.message_queue.put(("status", "Generation cancelled"))
+                self.message_queue.put(("done", None))
+                return
+                
             self.message_queue.put(("status", "Extracting audio features..."))
 
             # Get settings
@@ -1376,12 +1491,15 @@ class FractalMusicGUI:
                     trim_duration = trim_end - trim_start
                     # Use -ss before -i for input seeking (faster), then ensure output starts at 0
                     # This creates a file that starts at 0 seconds containing the trimmed segment
+                    # Use -ac 1 for mono, -ar for sample rate preservation
                     ffmpeg_cmd = [
                         ffmpeg_exe,
                         '-ss', str(trim_start),  # Seek to start time in input
                         '-i', str(audio_path),
-                        '-t', str(trim_duration),  # Duration of output
+                        '-t', str(trim_duration),  # Duration of output (10 seconds for 3.4-13.4)
                         '-acodec', 'pcm_s16le',  # WAV format
+                        '-ar', '44100',  # Preserve sample rate
+                        '-ac', '1',  # Mono
                         '-avoid_negative_ts', 'make_zero',  # Ensure timestamps start at 0
                         '-y',  # Overwrite
                         str(temp_audio_path)
@@ -1403,6 +1521,9 @@ class FractalMusicGUI:
                 # No trimming, use original audio
                 audio_path_for_video = audio_path
 
+            # Get normalization setting
+            normalize = self.settings['normalize_audio'].get()
+            
             # Extract features - use trimmed audio file if available (it already has the correct segment)
             # Also extract waveform data for direct audio following
             rms, cent, sr, duration, waveform = extract_features(
@@ -1410,7 +1531,8 @@ class FractalMusicGUI:
                 fps=fps,
                 start_time=None,  # Don't trim again - audio_path_for_video is already trimmed if needed
                 end_time=None,
-                return_waveform=True  # Get waveform data for direct audio following
+                return_waveform=True,  # Get waveform data for direct audio following
+                normalize=normalize  # Apply normalization if enabled
             )
 
             self.message_queue.put(("status", "Analyzing audio profile..."))
@@ -1420,7 +1542,7 @@ class FractalMusicGUI:
 
             # Get audio profile and select preset (use trimmed audio if available)
             audio_for_profile = str(audio_path_for_video) if temp_audio_path else str(audio_path)
-            prof = audio_profile(audio_for_profile, fps=fps)
+            prof = audio_profile(audio_for_profile, fps=fps, normalize=normalize)
 
             if fractal_type == 'julia':
                 preset_name = choose_preset_name(prof) if palette_choice == 'auto' else palette_choice
@@ -1485,10 +1607,20 @@ class FractalMusicGUI:
 
             # Progress callback with video name
             def progress_callback(current, total):
+                # Check if generation was cancelled
+                if self.generation_cancelled:
+                    return False  # Signal to stop generation
                 progress_pct = int((current / total) * 100)
                 self.message_queue.put(("progress", progress_pct))
                 self.message_queue.put(("status", f"Processing '{video_filename}': frame {current}/{total}..."))
+                return True  # Continue generation
 
+            # Check cancellation before starting video generation
+            if self.generation_cancelled:
+                self.message_queue.put(("status", "Generation cancelled"))
+                self.message_queue.put(("done", None))
+                return
+            
             # Generate video based on fractal type
             if fractal_type == 'julia':
                 output_path = julia_audio_frames_2d(
@@ -1535,11 +1667,25 @@ class FractalMusicGUI:
                     rotation_velocity=rotation_velocity,
                 )
 
+            # Check if generation was cancelled
+            if self.generation_cancelled:
+                self.message_queue.put(("status", "Generation cancelled"))
+                # Clean up temporary trimmed audio file if it exists
+                if temp_audio_path and temp_audio_path.exists():
+                    try:
+                        temp_audio_path.unlink()
+                        print(f"Cleaned up temporary trimmed audio file: {temp_audio_path}")
+                    except Exception as e:
+                        print(f"Warning: Failed to delete temporary audio file: {e}")
+                self.message_queue.put(("done", None))
+                return
+            
             # Ensure output_path points to final location
             if output_path and Path(output_path).exists():
                 output_path = str(video_path)
 
                 # Register video in metadata
+                fractal_type = self.settings['fractal_type'].get()
                 settings_dict = {
                     'fps': fps,
                     'width': width,
@@ -1548,7 +1694,11 @@ class FractalMusicGUI:
                     'intensity': intensity,
                     'palette': palette_choice,
                     'max_iterations': max_iterations,
+                    'fractal_type': fractal_type,  # Store fractal type
                 }
+                # Store IFS preset name if IFS is selected
+                if fractal_type == 'ifs':
+                    settings_dict['ifs_preset'] = self.settings['ifs_preset'].get()
                 video_info = register_video(audio_path, video_path, video_title, settings_dict)
 
                 # Clean up temporary trimmed audio file after successful video creation
@@ -1589,7 +1739,11 @@ class FractalMusicGUI:
                     self.status_var.set("Error occurred")
                 elif msg_type == "done":
                     self.is_generating = False
+                    self.generation_cancelled = False  # Reset cancellation flag
                     self.update_ui_state()
+                elif msg_type == "cancelled":
+                    self.message_queue.put(("status", "Generation cancelled"))
+                    self.message_queue.put(("done", None))
                 elif msg_type == "refresh_videos":
                     self.refresh_video_list()
 
@@ -1735,6 +1889,8 @@ class FractalMusicGUI:
             'current_frame': None,
             'fullscreen': False,
             'audio_path': None,
+            'screen_width': None,
+            'screen_height': None,
         }
 
         # Initialize pygame mixer for audio
@@ -1860,6 +2016,11 @@ class FractalMusicGUI:
             is_fullscreen = player_window.attributes('-fullscreen')
             self.player_state['fullscreen'] = not is_fullscreen
             player_window.attributes('-fullscreen', self.player_state['fullscreen'])
+            
+            # Cache screen dimensions when entering fullscreen
+            if self.player_state['fullscreen']:
+                self.player_state['screen_width'] = player_window.winfo_screenwidth()
+                self.player_state['screen_height'] = player_window.winfo_screenheight()
 
             # Force update of video display after fullscreen toggle
             if self.player_state['cap'] and self.player_state.get('current_frame') is not None:
@@ -1868,22 +2029,26 @@ class FractalMusicGUI:
 
         def update_video_display(img):
             """Update video display with proper sizing for fullscreen/normal mode."""
-            # Store current frame for fullscreen toggle
+            # Store original frame before resizing (needed for fullscreen toggle)
             self.player_state['current_frame'] = img.copy()
 
             if self.player_state['fullscreen']:
-                # Fullscreen: stretch to fill entire screen
-                screen_width = player_window.winfo_screenwidth()
-                screen_height = player_window.winfo_screenheight()
+                # Fullscreen: use fast NEAREST resampling (just stretches pixels, no upscaling)
+                # Use cached screen dimensions to avoid expensive calls every frame
+                screen_width = self.player_state.get('screen_width') or player_window.winfo_screenwidth()
+                screen_height = self.player_state.get('screen_height') or player_window.winfo_screenheight()
                 # Account for controls height (approximately 60px)
                 available_height = screen_height - 60
-                img = img.resize((screen_width, available_height), Image.Resampling.LANCZOS)
+                # Use NEAREST for fastest performance (just pixel stretching, no interpolation)
+                # This is much faster than LANCZOS and perfect for stretching without quality concerns
+                img = img.resize((screen_width, available_height), Image.Resampling.NEAREST)
             else:
-                # Normal mode: fit to window
+                # Normal mode: fit to window (use thumbnail for aspect-preserving resize)
                 display_width = video_canvas.winfo_width() or 800
                 display_height = video_canvas.winfo_height() or 600
                 if display_width > 1 and display_height > 1:
-                    img.thumbnail((display_width, display_height), Image.Resampling.LANCZOS)
+                    # Use BILINEAR for normal mode (faster than LANCZOS, still good quality)
+                    img.thumbnail((display_width, display_height), Image.Resampling.BILINEAR)
 
             photo = ImageTk.PhotoImage(image=img)
             video_label.config(image=photo, text="", background='black')

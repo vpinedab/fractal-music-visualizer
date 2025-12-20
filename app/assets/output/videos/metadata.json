@@ -4,9 +4,9 @@
       "id": 1,
       "title": "Video 1",
       "filename": "SPEED OF KIRB 10.0_20251219_222551.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\output\\videos\\SPEED OF KIRB 10.0\\SPEED OF KIRB 10.0_20251219_222551.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/output/videos/SPEED OF KIRB 10.0/SPEED OF KIRB 10.0_20251219_222551.mp4",
       "created": "2025-12-19T22:28:04.489663",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\music\\SPEED OF KIRB 10.0.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/music/SPEED OF KIRB 10.0.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -21,9 +21,9 @@
       "id": 2,
       "title": "Video 2",
       "filename": "SPEED OF KIRB 10.0_20251220_014229.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\SPEED OF KIRB 10.0\\SPEED OF KIRB 10.0_20251220_014229.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/SPEED OF KIRB 10.0/SPEED OF KIRB 10.0_20251220_014229.mp4",
       "created": "2025-12-20T01:45:43.541835",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\SPEED OF KIRB 10.0.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/SPEED OF KIRB 10.0.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -40,9 +40,9 @@
       "id": 1,
       "title": "Video 1",
       "filename": "Black Skinhead_20251219_223140.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\output\\videos\\Black Skinhead\\Black Skinhead_20251219_223140.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/output/videos/Black Skinhead/Black Skinhead_20251219_223140.mp4",
       "created": "2025-12-19T22:36:34.975596",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\music\\Black Skinhead.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/music/Black Skinhead.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -57,9 +57,9 @@
       "id": 2,
       "title": "Video 2",
       "filename": "Black Skinhead_20251219_230044.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\output\\videos\\Black Skinhead\\Black Skinhead_20251219_230044.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/output/videos/Black Skinhead/Black Skinhead_20251219_230044.mp4",
       "created": "2025-12-19T23:21:46.775854",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\music\\Black Skinhead.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/music/Black Skinhead.wav",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -74,9 +74,9 @@
       "id": 3,
       "title": "Video 3",
       "filename": "Black Skinhead_20251220_020252.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Black Skinhead\\Black Skinhead_20251220_020252.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Black Skinhead/Black Skinhead_20251220_020252.mp4",
       "created": "2025-12-20T02:05:31.508022",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Black Skinhead.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Black Skinhead.wav",
       "settings": {
         "fps": 60,
         "width": 800,
@@ -91,9 +91,9 @@
       "id": 4,
       "title": "Video 4",
       "filename": "Black Skinhead_20251220_020624.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Black Skinhead\\Black Skinhead_20251220_020624.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Black Skinhead/Black Skinhead_20251220_020624.mp4",
       "created": "2025-12-20T02:08:40.238830",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Black Skinhead.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Black Skinhead.wav",
       "settings": {
         "fps": 60,
         "width": 800,
@@ -110,9 +110,9 @@
       "id": 1,
       "title": "Video 1",
       "filename": "lofi_20251219_224814.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251219_224814.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251219_224814.mp4",
       "created": "2025-12-19T22:48:26.097167",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -127,9 +127,9 @@
       "id": 2,
       "title": "Video 2",
       "filename": "lofi_20251220_015338.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251220_015338.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251220_015338.mp4",
       "created": "2025-12-20T01:54:28.314702",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 640,
@@ -144,9 +144,9 @@
       "id": 3,
       "title": "Video 3",
       "filename": "lofi_20251220_015635.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251220_015635.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251220_015635.mp4",
       "created": "2025-12-20T01:57:37.717562",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 640,
@@ -161,9 +161,9 @@
       "id": 4,
       "title": "Video 4",
       "filename": "lofi_20251220_033256.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251220_033256.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251220_033256.mp4",
       "created": "2025-12-20T03:32:59.348485",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -178,9 +178,9 @@
       "id": 5,
       "title": "Video 5",
       "filename": "lofi_20251220_033338.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251220_033338.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251220_033338.mp4",
       "created": "2025-12-20T03:33:40.984677",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -195,9 +195,9 @@
       "id": 6,
       "title": "Video 6",
       "filename": "lofi_20251220_033412.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251220_033412.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251220_033412.mp4",
       "created": "2025-12-20T03:34:15.028214",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -212,9 +212,9 @@
       "id": 7,
       "title": "Video 7",
       "filename": "lofi_20251220_041448.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\lofi\\lofi_20251220_041448.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/lofi/lofi_20251220_041448.mp4",
       "created": "2025-12-20T04:14:52.762885",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\lofi.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/lofi.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -231,9 +231,9 @@
       "id": 1,
       "title": "Video 1",
       "filename": "acoustic_20251219_225317.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\output\\videos\\acoustic\\acoustic_20251219_225317.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/output/videos/acoustic/acoustic_20251219_225317.mp4",
       "created": "2025-12-19T22:53:43.308599",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\music\\acoustic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/music/acoustic.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -248,9 +248,9 @@
       "id": 2,
       "title": "Video 2",
       "filename": "acoustic_20251219_225420.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\output\\videos\\acoustic\\acoustic_20251219_225420.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/output/videos/acoustic/acoustic_20251219_225420.mp4",
       "created": "2025-12-19T22:54:45.988959",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\fractal-music-visualizer\\app\\assets\\music\\acoustic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/fractal-music-visualizer/app/assets/music/acoustic.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -267,9 +267,9 @@
       "id": 1,
       "title": "Video 1",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_022536.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_022536.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_022536.mp4",
       "created": "2025-12-20T02:26:01.150589",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -284,9 +284,9 @@
       "id": 2,
       "title": "Video 2",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_023050.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_023050.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_023050.mp4",
       "created": "2025-12-20T02:31:01.779376",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -301,9 +301,9 @@
       "id": 3,
       "title": "Video 3",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_023144.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_023144.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_023144.mp4",
       "created": "2025-12-20T02:31:55.431485",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -318,9 +318,9 @@
       "id": 4,
       "title": "Video 4",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_025604.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_025604.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_025604.mp4",
       "created": "2025-12-20T02:56:08.428275",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -335,9 +335,9 @@
       "id": 5,
       "title": "Video 5",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_034546.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_034546.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_034546.mp4",
       "created": "2025-12-20T03:47:35.891089",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 60,
         "width": 800,
@@ -352,9 +352,9 @@
       "id": 6,
       "title": "Video 6",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_034829.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_034829.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_034829.mp4",
       "created": "2025-12-20T03:49:14.586746",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -369,9 +369,9 @@
       "id": 7,
       "title": "Video 7",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_035001.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_035001.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_035001.mp4",
       "created": "2025-12-20T03:50:09.129716",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -386,9 +386,9 @@
       "id": 8,
       "title": "Video 8",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_041557.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_041557.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_041557.mp4",
       "created": "2025-12-20T04:15:58.478549",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -403,9 +403,9 @@
       "id": 9,
       "title": "Video 9",
       "filename": "Imagine Dragons - Next To Me (Audio)_20251220_041628.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\Imagine Dragons - Next To Me (Audio)\\Imagine Dragons - Next To Me (Audio)_20251220_041628.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/Imagine Dragons - Next To Me (Audio)/Imagine Dragons - Next To Me (Audio)_20251220_041628.mp4",
       "created": "2025-12-20T04:16:28.865334",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\Imagine Dragons - Next To Me (Audio).mp3",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/Imagine Dragons - Next To Me (Audio).mp3",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -422,9 +422,9 @@
       "id": 1,
       "title": "Video 1",
       "filename": "electronic_20251220_024056.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_024056.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_024056.mp4",
       "created": "2025-12-20T02:41:01.977659",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -439,9 +439,9 @@
       "id": 2,
       "title": "Video 2",
       "filename": "electronic_20251220_024145.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_024145.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_024145.mp4",
       "created": "2025-12-20T02:41:55.269634",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -456,9 +456,9 @@
       "id": 3,
       "title": "Video 3",
       "filename": "electronic_20251220_024603.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_024603.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_024603.mp4",
       "created": "2025-12-20T02:46:40.469654",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -473,9 +473,9 @@
       "id": 4,
       "title": "Video 4",
       "filename": "electronic_20251220_024742.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_024742.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_024742.mp4",
       "created": "2025-12-20T02:47:47.147149",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 320,
@@ -490,9 +490,9 @@
       "id": 5,
       "title": "Video 5",
       "filename": "electronic_20251220_030638.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_030638.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_030638.mp4",
       "created": "2025-12-20T03:07:19.461197",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -507,9 +507,9 @@
       "id": 6,
       "title": "Video 6",
       "filename": "electronic_20251220_030944.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_030944.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_030944.mp4",
       "created": "2025-12-20T03:10:17.979459",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -524,9 +524,9 @@
       "id": 7,
       "title": "Video 7",
       "filename": "electronic_20251220_031102.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_031102.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_031102.mp4",
       "created": "2025-12-20T03:11:09.926306",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -541,9 +541,9 @@
       "id": 8,
       "title": "Video 8",
       "filename": "electronic_20251220_031148.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_031148.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_031148.mp4",
       "created": "2025-12-20T03:12:47.961657",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -558,9 +558,9 @@
       "id": 9,
       "title": "Video 9",
       "filename": "electronic_20251220_031330.mp4",
-      "path": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\output\\videos\\electronic\\electronic_20251220_031330.mp4",
+      "path": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/output/videos/electronic/electronic_20251220_031330.mp4",
       "created": "2025-12-20T03:14:27.411836",
-      "audio_file": "C:\\Users\\ALIENWARE\\Codigo\\Musical Fractals\\SecondTry\\fractal-music-visualizer\\app\\assets\\music\\electronic.wav",
+      "audio_file": "C:/Users/ALIENWARE/Codigo/Musical Fractals/SecondTry/fractal-music-visualizer/app/assets/music/electronic.wav",
       "settings": {
         "fps": 24,
         "width": 800,
@@ -569,6 +569,102 @@
         "intensity": 1.3876470588235295,
         "palette": "fire",
         "max_iterations": 200
+      }
+    }
+  ],
+  "Billie Eilish - CHIHIRO (Official Lyric Video)": [
+    {
+      "id": 1,
+      "title": "Chihiro",
+      "filename": "Billie Eilish - CHIHIRO (Official Lyric Video)_20251220_113744_Chihiro.mp4",
+      "path": "assets/output/videos/Billie Eilish - CHIHIRO (Official Lyric Video)/Billie Eilish - CHIHIRO (Official Lyric Video)_20251220_113744_Chihiro.mp4",
+      "created": "2025-12-20T11:40:43.265976",
+      "audio_file": "assets/music/Billie Eilish - CHIHIRO (Official Lyric Video).mp3",
+      "settings": {
+        "fps": 24,
+        "width": 1920,
+        "height": 1080,
+        "power": 4.0,
+        "intensity": 1.0,
+        "palette": "ocean",
+        "max_iterations": 200
+      }
+    }
+  ],
+  "cant-get-you-out-of-my-head-official-video": [
+    {
+      "id": 3,
+      "title": "Video 3",
+      "filename": "cant-get-you-out-of-my-head-official-video_20251220_115701.mp4",
+      "path": "assets/output/videos/cant-get-you-out-of-my-head-official-video/cant-get-you-out-of-my-head-official-video_20251220_115701.mp4",
+      "created": "2025-12-20T12:01:09.368894",
+      "audio_file": "assets/music/cant-get-you-out-of-my-head-official-video.mp3",
+      "settings": {
+        "fps": 24,
+        "width": 1920,
+        "height": 1080,
+        "power": 2.0,
+        "intensity": 1.0,
+        "palette": "fire",
+        "max_iterations": 400
+      }
+    }
+  ],
+  "I Feel It Coming": [
+    {
+      "id": 2,
+      "title": "I Feel It Coming",
+      "filename": "I Feel It Coming_20251220_132819_I_Feel_It_Coming.mp4",
+      "path": "assets/output/videos/I Feel It Coming/I Feel It Coming_20251220_132819_I_Feel_It_Coming.mp4",
+      "created": "2025-12-20T13:34:55.847622",
+      "audio_file": "assets/music/I Feel It Coming.mp3",
+      "settings": {
+        "fps": 30,
+        "width": 1920,
+        "height": 1080,
+        "power": 2.0,
+        "intensity": 1.0,
+        "palette": "mathematical",
+        "max_iterations": 200,
+        "fractal_type": "julia"
+      }
+    }
+  ],
+  "Battles - Fort Greene Park (Official Video)": [
+    {
+      "id": 2,
+      "title": "Video 2",
+      "filename": "Battles - Fort Greene Park (Official Video)_20251220_133849.mp4",
+      "path": "assets/output/videos/Battles - Fort Greene Park (Official Video)/Battles - Fort Greene Park (Official Video)_20251220_133849.mp4",
+      "created": "2025-12-20T13:39:27.712148",
+      "audio_file": "assets/music/Battles - Fort Greene Park (Official Video).mp3",
+      "settings": {
+        "fps": 30,
+        "width": 1920,
+        "height": 1080,
+        "power": 3.6470588235294117,
+        "intensity": 1.0,
+        "palette": "abstract",
+        "max_iterations": 200,
+        "fractal_type": "julia"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Video 2",
+      "filename": "Battles - Fort Greene Park (Official Video)_20251220_134353.mp4",
+      "path": "assets/output/videos/Battles - Fort Greene Park (Official Video)/Battles - Fort Greene Park (Official Video)_20251220_134353.mp4",
+      "created": "2025-12-20T13:44:47.108891",
+      "audio_file": "assets/music/Battles - Fort Greene Park (Official Video).mp3",
+      "settings": {
+        "fps": 30,
+        "width": 1920,
+        "height": 1080,
+        "power": 3.0,
+        "intensity": 2.0,
+        "palette": "ethereal",
+        "max_iterations": 200,
+        "fractal_type": "julia"
       }
     }
   ]

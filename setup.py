@@ -15,6 +15,11 @@ def check_python_version():
     if sys.version_info < (3, 8):
         print("ERROR: Python 3.8 or higher is required.")
         print(f"Current version: {sys.version}")
+        print("\nPlease install Python 3.8 or higher:")
+        print("  - Windows: Download from https://www.python.org/downloads/")
+        print("  - Linux: sudo apt-get install python3 (Ubuntu/Debian)")
+        print("           sudo yum install python3 (RHEL/CentOS)")
+        print("  - macOS: brew install python3")
         return False
     print(f"✓ Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
     return True
@@ -28,6 +33,33 @@ def check_pip():
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         print("ERROR: pip is not available")
+        print("\nPlease install pip:")
+        print("  python -m ensurepip --upgrade")
+        print("  or download get-pip.py from https://bootstrap.pypa.io/get-pip.py")
+        return False
+
+def check_tkinter():
+    """Check if tkinter is available."""
+    try:
+        import tkinter
+        print("✓ tkinter is available")
+        return True
+    except ImportError:
+        print("WARNING: tkinter is not available")
+        platform_system = platform.system()
+        if platform_system == "Linux":
+            print("  Install tkinter:")
+            print("    Ubuntu/Debian: sudo apt-get install python3-tk")
+            print("    RHEL/CentOS:   sudo yum install python3-tkinter")
+            print("    Fedora:        sudo dnf install python3-tkinter")
+        elif platform_system == "Windows":
+            print("  tkinter should be included with Python.")
+            print("  If missing, reinstall Python and ensure 'tcl/tk' is selected.")
+        elif platform_system == "Darwin":
+            print("  tkinter should be included with Python.")
+            print("  If missing, install: brew install python-tk")
+        print("  Note: GUI mode will not work without tkinter.")
+        print("  CLI mode will still work.")
         return False
 
 def create_venv():
@@ -93,18 +125,22 @@ def install_dependencies():
 
         # Verify critical dependencies
         print("\nVerifying critical dependencies...")
-        critical_deps = ['numpy', 'PIL', 'librosa', 'imageio', 'imageio_ffmpeg']
+        critical_deps = ['numpy', 'PIL', 'librosa', 'imageio', 'imageio_ffmpeg', 'tkinter']
         for dep in critical_deps:
             try:
                 if dep == 'PIL':
                     __import__('PIL')
                 elif dep == 'imageio_ffmpeg':
                     __import__('imageio_ffmpeg')
+                elif dep == 'tkinter':
+                    __import__('tkinter')
                 else:
                     __import__(dep)
                 print(f"  ✓ {dep}")
             except ImportError:
                 print(f"  ✗ {dep} - WARNING: Failed to import")
+                if dep == 'tkinter':
+                    check_tkinter()  # Print platform-specific instructions
 
         return True
     except subprocess.CalledProcessError as e:
@@ -182,6 +218,9 @@ def main():
 
     if not check_pip():
         sys.exit(1)
+
+    # Check tkinter (warn if missing, but don't fail setup)
+    check_tkinter()
 
     # Create virtual environment
     if not create_venv():

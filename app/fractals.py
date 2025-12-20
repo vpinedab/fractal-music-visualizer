@@ -754,9 +754,9 @@ IFS_PRESETS = {
         ],
         "x_min": -0.5, "x_max": 1.5,
         "y_min": -0.5, "y_max": 0.5,
-        "iterations": 50000,
+        "iterations": 200000,  # Increased from 50000 for better visibility
         "palette": "ethereal",
-        "gamma": 0.95,
+        "gamma": 0.75,  # Lower gamma (from 0.95) for brighter appearance
     },
     "spiral": {
         "transforms": [
@@ -766,9 +766,9 @@ IFS_PRESETS = {
         ],
         "x_min": -8.0, "x_max": 8.0,
         "y_min": -2.0, "y_max": 10.0,
-        "iterations": 100000,
+        "iterations": 300000,  # Increased from 100000 for better visibility
         "palette": "abstract",
-        "gamma": 0.85,
+        "gamma": 0.70,  # Lower gamma (from 0.85) for brighter appearance
     },
 }
 
@@ -1089,7 +1089,10 @@ def ifs_audio_frames_2d(
             writer.append_data(rgb_frame)
 
             if progress_callback:
-                progress_callback(i + 1, total_frames)
+                result = progress_callback(i + 1, total_frames)
+                # If callback returns False, stop generation
+                if result is False:
+                    break
 
         writer.close()
         writer = None
@@ -1320,7 +1323,10 @@ def julia_audio_frames_2d(
 
             # Progress callback
             if progress_callback:
-                progress_callback(i + 1, total_frames)
+                result = progress_callback(i + 1, total_frames)
+                # If callback returns False, stop generation
+                if result is False:
+                    break
 
     finally:
         if writer:

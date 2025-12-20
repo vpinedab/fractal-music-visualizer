@@ -19,7 +19,7 @@ def smooth_ar(x: np.ndarray, alpha_up: float, alpha_down: float) -> np.ndarray:
         out[i] = a * x[i] + (1 - a) * out[i-1]
     return out
 
-def extract_features(audio_path: str, fps: int = 30, start_time: float = None, end_time: float = None, return_waveform: bool = False):
+def extract_features(audio_path: str, fps: int = 30, start_time: float = None, end_time: float = None, return_waveform: bool = False, normalize: bool = False):
     """
     Extract audio features (RMS and spectral centroid), optionally with waveform data.
 
@@ -29,6 +29,7 @@ def extract_features(audio_path: str, fps: int = 30, start_time: float = None, e
         start_time: Start time in seconds (None = start from beginning)
         end_time: End time in seconds (None = end at file end)
         return_waveform: If True, also return waveform data per frame
+        normalize: If True, normalize audio to prevent clipping and improve visualization
 
     Returns:
         rms_s: Smoothed RMS energy array
@@ -39,6 +40,13 @@ def extract_features(audio_path: str, fps: int = 30, start_time: float = None, e
     """
     # Load full audio first to get duration
     y_full, sr = librosa.load(audio_path, sr=None, mono=True)
+    
+    # Normalize audio if requested (peak normalization to prevent clipping)
+    if normalize:
+        max_val = np.abs(y_full).max()
+        if max_val > 0:
+            # Normalize to 90% of maximum to prevent clipping while maintaining dynamics
+            y_full = y_full * (0.9 / max_val)
     full_duration = len(y_full) / sr
 
     # Apply trimming if specified
@@ -96,14 +104,14 @@ def extract_features(audio_path: str, fps: int = 30, start_time: float = None, e
 
     return rms_s, cent_s, sr, duration
 
-def audio_profile(audio_path: str, fps: int = 60) -> dict:
+def audio_profile(audio_path: str, fps: int = 60, normalize: bool = False) -> dict:
     """
     Devuelve métricas globales del audio para elegir preset.
     - energy_* proviene de RMS
     - bright_* proviene de spectral centroid
     """
     # Reusa tu pipeline existente
-    rms, cent, sr, duration = extract_features(audio_path, fps=fps)
+    rms, cent, sr, duration = extract_features(audio_path, fps=fps, normalize=normalize)
 
     # Estadísticos robustos
     e_mean = float(np.mean(rms))
@@ -119,6 +127,11 @@ def audio_profile(audio_path: str, fps: int = 60) -> dict:
 
     # Tempo (opcional, pero útil para "energetic")
     y, _sr = librosa.load(audio_path, sr=sr, mono=True)
+    # Apply normalization if requested
+    if normalize:
+        max_val = np.abs(y).max()
+        if max_val > 0:
+            y = y * (0.9 / max_val)
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
     tempo = float(tempo)
 

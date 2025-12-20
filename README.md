@@ -9,12 +9,18 @@
 
 - **Audio-Reactive Visualization**: Fractals that respond to music in real-time
 - **Multiple Fractal Types**: Julia Sets and IFS (Iterated Function Systems) fractals
+  - Julia Sets: Customizable power, Z offsets, C base parameters, and rotation
+  - IFS Fractals: Barnsley Fern, Sierpinski, Dragon, and Spiral presets
 - **Customizable**: Adjust resolution, FPS, colors, iterations, rotation, and more
 - **Smart Presets**: Auto-selects best preset based on audio characteristics
 - **Video Generation**: Export as MP4 with synchronized audio
-- **Modern GUI**: Intuitive interface with real-time preview
-- **Audio Trimming**: Process specific segments of audio files
+- **Modern GUI**: Intuitive interface with centered title and organized layout
+- **Audio Trimming**: Process specific segments of audio files with fine adjustment buttons
+- **Audio Normalization**: Option to normalize audio volume for better visualization
+- **Fine Controls**: +/- buttons for precise adjustment of sensitivity, start time, and end time
 - **Waveform Following**: Direct audio waveform interpretation for more responsive visuals
+- **Video Management**: View all generated videos with thumbnails, duration, and fractal type
+- **Stop Generation**: Cancel video generation mid-process if needed
 
 ## 🚀 Quick Start
 
@@ -104,14 +110,22 @@ python run.py
 **Steps:**
 1. Click "Refresh" to load audio files from `app/assets/music/`
 2. Select an audio file and click "✓ Confirm"
-3. Choose fractal type (Julia Sets or IFS)
+3. Choose fractal type (Julia Sets or IFS) using the buttons at the top
 4. Customize settings (optional):
-   - Video Settings: FPS, resolution, iterations, color palette
-   - Audio Settings: Sensitivity, trimming
-   - Fractal Formula: Power, offsets, rotation (for Julia Sets)
-5. Click "Generate Video"
-6. Wait for generation to complete
-7. Click "Play Visualization" to watch!
+   - **Video Settings**: FPS, resolution, iterations, color palette, dynamic dimensions
+   - **Audio Settings**: 
+     - Sensitivity (use +/- buttons for fine adjustment)
+     - Normalize Audio checkbox (reduces clipping)
+     - Enable Trimming with start/end time (use +/- buttons for precise control)
+   - **Fractal Formula** (Julia Sets only):
+     - Power (z^p + c formula)
+     - Z Offset (Real and Imaginary parts)
+     - C Base (Real and Imaginary parts)
+     - Rotation (enable with rotation velocity)
+5. Click "🎬 Generate Video" (use "⏹ Stop" button to cancel if needed)
+6. Wait for generation to complete (progress bar shows status)
+7. Click "▶ Play" to watch your visualization!
+8. Browse generated videos in the "Available Videos" section with thumbnails
 
 ### CLI Mode
 
@@ -156,9 +170,17 @@ The application will automatically detect and list them.
 - Audio-reactive parameter modulation
 
 ### IFS Fractals
-- Iterated Function Systems (Barnsley Fern, Sierpinski, Dragon, Spiral)
+- Iterated Function Systems with multiple presets:
+  - **Barnsley Fern**: Classic fern structure
+  - **Sierpinski**: Triangular fractal pattern
+  - **Dragon**: Dragon curve fractal (improved visibility with optimized settings)
+  - **Spiral**: Spiral patterns (improved visibility with optimized settings)
 - Transform-based generation
 - Audio-reactive transformation parameters
+- Optional rotation control (rotations per second: -1.0 to 1.0)
+- Improved point density and brightness for better visibility
+
+Note: IFS preset selection and rotation controls are only visible when "IFS" fractal type is selected.
 
 ## ⚙️ Configuration
 
@@ -171,13 +193,19 @@ The application will automatically detect and list them.
 
 ### Audio Settings
 - **Sensitivity**: Control how much audio affects fractals (0.1x to 20x)
+  - Use +/- buttons for fine adjustments (0.1x increments)
+- **Normalize Audio**: Checkbox to normalize audio volume, preventing clipping for clearer visualizations
 - **Trimming**: Process specific time segments (e.g., 20-30 seconds)
+  - Enable trimming checkbox to activate
+  - Use +/- buttons for precise start/end time adjustments (0.1s increments)
 
 ### Fractal Formula (Julia Sets)
-- **Power**: Exponent for z^p + c formula (1.0 to 10.0)
-- **Z Offset**: Real and imaginary offsets
-- **C Base**: Base complex parameter
-- **Rotation**: Enable constant rotation (rotations per second)
+- **Power**: Exponent for z^p + c formula (1.0 to 10.0) - adjustable slider
+- **Z Offset**: Real and imaginary offsets (-2.0 to 2.0) - separate sliders for each
+- **C Base**: Base complex parameter (-2.0 to 2.0) - separate sliders for real and imaginary parts
+- **Rotation**: Enable constant rotation (rotations per second: -1.0 to 1.0)
+
+Note: These controls are only visible when "Julia Sets" fractal type is selected.
 
 ## 🐳 Docker Alternative
 
@@ -324,8 +352,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Video Export**: MP4 with embedded audio
 - **Multiple Fractals**: Julia Sets and IFS fractals
 - **Rotation Control**: Constant rotation speed for Julia Sets and IFS
-- **Audio Trimming**: Process specific segments
+- **Audio Trimming**: Process specific segments with fine time controls
+- **Audio Normalization**: Prevent clipping and improve visualization clarity
 - **Waveform Following**: Direct audio waveform interpretation
+- **Julia Sets Controls**: Full parameter control (power, offsets, rotation)
+- **IFS Presets**: Multiple fractal types with improved visibility
+- **Fine Adjustment Buttons**: Precise controls for sensitivity and trimming times
+- **Video List Display**: Browse all videos with thumbnails, duration, and fractal type
+- **Generation Cancellation**: Stop video generation at any time
 
 ---
 
