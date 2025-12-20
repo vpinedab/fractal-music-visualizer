@@ -36,12 +36,9 @@ def check_dependencies():
         for m in missing:
             print(f"  - {m}")
         print("\nPlease run the setup script first:")
-        if sys.platform == 'win32':
-            print("  setup.bat")
-        else:
-            print("  ./setup.sh")
+        print("  python setup.py")
         print("\nOr install manually:")
-        print("  pip install -r app/requirements.txt")
+        print("  pip install -r requirements.txt")
         return False
     return True
 

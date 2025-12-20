@@ -11,7 +11,7 @@ All notable changes to Fractal Music Visualizer will be documented in this file.
 - Video deletion functionality
 - Video duration display
 - Z and C offset sliders for formula customization
-- Rotation feature with velocity control
+- Rotation feature with velocity control (Julia Sets and IFS)
 - Custom color palette support
 - Dynamic dimension growth feature
 - Audio synchronization in generated videos
@@ -19,7 +19,10 @@ All notable changes to Fractal Music Visualizer will be documented in this file.
 - Progress tracking during generation
 - Comprehensive setup scripts for all platforms
 - Docker support with FFmpeg included
-- Detailed documentation (SETUP.md, INSTALL.md, QUICKSTART.md)
+- IFS (Iterated Function Systems) fractals support
+- Audio trimming functionality
+- Waveform-based audio following
+- Comprehensive README with all setup instructions
 
 ### Changed
 - Optimized fractal generation with Numba JIT compilation

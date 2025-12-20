@@ -4,11 +4,13 @@ from fractals import JULIA_PRESETS, julia_audio_frames_2d
 from preset_selector import choose_preset_name
 
 def main():
-    audio_path = Path("assets/music/lofi.wav")
+    # Get app root directory (portable)
+    APP_ROOT = Path(__file__).resolve().parent
+    audio_path = APP_ROOT / "assets" / "music" / "lofi.wav"
     fps = 60
 
     # Frames (lo que ya usas para animar)
-    rms, cent, sr, duration = extract_features(audio_path, fps=fps)
+    rms, cent, sr, duration = extract_features(str(audio_path), fps=fps)
 
     # Perfil global (para escoger preset)
     prof = audio_profile(str(audio_path), fps=fps)
@@ -16,7 +18,7 @@ def main():
     preset = JULIA_PRESETS[preset_name]
 
     # NUEVO: carpeta por canción
-    frames_root = Path("assets/output/frames")
+    frames_root = APP_ROOT / "assets" / "output" / "frames"
     frames_dir = frames_root / audio_path.stem   # "song.wav" -> "song"
 
     print("Auto preset:", preset_name, "| tempo:", prof["tempo"])

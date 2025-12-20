@@ -4,13 +4,13 @@
 # Explicitly declare text files you want to always be normalized and converted
 # to native line endings on checkout.
 *.py text eol=lf
-*.md text eol=lf
 *.txt text eol=lf
-*.sh text eol=lf
-*.bat text eol=crlf
+*.md text eol=lf
+*.json text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
-*.json text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary
@@ -22,5 +22,16 @@
 *.wav binary
 *.mp3 binary
 *.flac binary
+*.ogg binary
+*.aac binary
 *.exe binary
+*.so binary
+*.dylib binary
+*.dll binary
 
+# Python
+*.pyc binary
+*.pyo binary
+*.pyd binary
+*.egg binary
+*.whl binary

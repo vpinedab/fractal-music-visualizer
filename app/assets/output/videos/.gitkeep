@@ -1,0 +1,3 @@
+# This file ensures the videos directory structure exists in git
+# Generated videos and metadata.json are gitignored
+

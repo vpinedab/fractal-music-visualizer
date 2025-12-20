@@ -1,6 +1,7 @@
 import numpy as np
 from PIL import Image
 import os
+from pathlib import Path
 
 # Try to import numba for JIT compilation, fallback to pure NumPy if not available
 try:
@@ -69,6 +70,7 @@ def mandelbrot( # Fractal configuration
     image = np.zeros(C.shape, dtype=np.uint8)
 
     # Iteración del fractal
+    for i in range(max_iter):
         # Crear la mascara
         mask = np.abs(Z) <= 2
         # Selecciona los puntos que todavía no han escapado
@@ -348,6 +350,42 @@ INTERIOR_COLORS = {
     "abstract": (6, 8, 22),
     "warm": (18, 26, 40),
 }
+
+# Representative colors for each palette (for UI display)
+PALETTE_COLORS = {
+    "fire": {
+        "main": (255, 100, 0),      # Orange-red
+        "accents": [(255, 200, 0), (255, 50, 0), (200, 0, 0)]  # Yellow, deep red, dark red
+    },
+    "ocean": {
+        "main": (46, 110, 159),     # Ocean blue
+        "accents": [(12, 30, 120), (108, 75, 150), (65, 157, 141)]  # Navy, purple, teal
+    },
+    "deep_sea": {
+        "main": (40, 100, 120),     # Deep blue-green
+        "accents": [(20, 60, 90), (90, 160, 170), (10, 25, 55)]  # Medium blue, light blue, dark blue
+    },
+    "ethereal": {
+        "main": (106, 85, 181),     # Blue violet (flower)
+        "accents": [(162, 46, 120), (157, 141, 215), (186, 165, 194)]  # Royal health, cold purple, london hue
+    },
+    "mathematical": {
+        "main": (20, 55, 120),      # Deep blue
+        "accents": [(90, 160, 230), (6, 12, 79), (235, 245, 255)]  # Light blue, navy, white-blue
+    },
+    "abstract": {
+        "main": (180, 90, 210),     # Luminous purple
+        "accents": [(40, 140, 160), (245, 210, 90), (60, 35, 110)]  # Turquoise, yellow, deep purple
+    },
+    "warm": {
+        "main": (210, 77, 85),      # Coral red
+        "accents": [(255, 196, 4), (218, 96, 38), (89, 51, 78)]  # Yellow, burnt orange, wine purple
+    },
+}
+
+def rgb_to_hex(rgb):
+    """Convert RGB tuple to hex string."""
+    return f"#{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}"
 
 def _hex_to_rgb(hex_color: str) -> tuple:
     """Convert hex color to RGB tuple."""
@@ -676,6 +714,426 @@ JULIA_PRESETS = {
     },
 }
 
+### IFS FRACTALS ###
+
+# IFS Presets - Barnsley Fern, Sierpinski Triangle, etc.
+IFS_PRESETS = {
+    "barnsley_fern": {
+        "transforms": [
+            # f1: stem
+            {"a": 0.0, "b": 0.0, "c": 0.0, "d": 0.16, "e": 0.0, "f": 0.0, "prob": 0.01},
+            # f2: small leaflets
+            {"a": 0.85, "b": 0.04, "c": -0.04, "d": 0.85, "e": 0.0, "f": 1.6, "prob": 0.85},
+            # f3: left large leaflet
+            {"a": 0.2, "b": -0.26, "c": 0.23, "d": 0.22, "e": 0.0, "f": 1.6, "prob": 0.07},
+            # f4: right large leaflet
+            {"a": -0.15, "b": 0.28, "c": 0.26, "d": 0.24, "e": 0.0, "f": 0.44, "prob": 0.07},
+        ],
+        "x_min": -2.5, "x_max": 2.5,
+        "y_min": 0.0, "y_max": 10.0,
+        "iterations": 100000,
+        "palette": "fire",
+        "gamma": 0.85,
+    },
+    "sierpinski": {
+        "transforms": [
+            {"a": 0.5, "b": 0.0, "c": 0.0, "d": 0.5, "e": 0.0, "f": 0.0, "prob": 0.33},
+            {"a": 0.5, "b": 0.0, "c": 0.0, "d": 0.5, "e": 0.5, "f": 0.0, "prob": 0.33},
+            {"a": 0.5, "b": 0.0, "c": 0.0, "d": 0.5, "e": 0.25, "f": 0.5, "prob": 0.34},
+        ],
+        "x_min": 0.0, "x_max": 1.0,
+        "y_min": 0.0, "y_max": 1.0,
+        "iterations": 50000,
+        "palette": "ocean",
+        "gamma": 0.90,
+    },
+    "dragon": {
+        "transforms": [
+            {"a": 0.5, "b": -0.5, "c": 0.5, "d": 0.5, "e": 0.0, "f": 0.0, "prob": 0.5},
+            {"a": -0.5, "b": -0.5, "c": 0.5, "d": -0.5, "e": 1.0, "f": 0.0, "prob": 0.5},
+        ],
+        "x_min": -0.5, "x_max": 1.5,
+        "y_min": -0.5, "y_max": 0.5,
+        "iterations": 50000,
+        "palette": "ethereal",
+        "gamma": 0.95,
+    },
+    "spiral": {
+        "transforms": [
+            {"a": 0.787879, "b": -0.424242, "c": 0.242424, "d": 0.859848, "e": 1.758647, "f": 1.408065, "prob": 0.4},
+            {"a": -0.121212, "b": 0.257576, "c": 0.151515, "d": 0.053030, "e": -6.721654, "f": 1.377236, "prob": 0.15},
+            {"a": 0.181818, "b": -0.136364, "c": 0.090909, "d": 0.181818, "e": 6.086107, "f": 1.568035, "prob": 0.45},
+        ],
+        "x_min": -8.0, "x_max": 8.0,
+        "y_min": -2.0, "y_max": 10.0,
+        "iterations": 100000,
+        "palette": "abstract",
+        "gamma": 0.85,
+    },
+}
+
+if NUMBA_AVAILABLE:
+    @njit(parallel=False, fastmath=True, cache=True)
+    def ifs_iterate(transforms, n_iterations, x0, y0):
+        """
+        Fast IFS iteration using numba.
+        transforms: array of shape (n_transforms, 7) with [a, b, c, d, e, f, prob] for each transform
+        """
+        n_transforms = transforms.shape[0]
+        # Precompute cumulative probabilities
+        cum_probs = np.zeros(n_transforms + 1, dtype=np.float32)
+        for i in range(n_transforms):
+            cum_probs[i + 1] = cum_probs[i] + transforms[i, 6]  # prob is at index 6
+
+        x, y = x0, y0
+        points = np.zeros((n_iterations, 2), dtype=np.float32)
+
+        # Initialize random state (numba-compatible)
+        np.random.seed(42)  # For reproducibility, but will vary per call
+
+        for i in range(n_iterations):
+            # Choose transformation based on probability
+            r = np.random.random()
+            idx = 0
+            for j in range(n_transforms):
+                if r < cum_probs[j + 1]:
+                    idx = j
+                    break
+
+            # Apply transformation: [x', y'] = [a b; c d] * [x; y] + [e; f]
+            t = transforms[idx]
+            x_new = t[0] * x + t[1] * y + t[4]  # a*x + b*y + e
+            y_new = t[2] * x + t[3] * y + t[5]  # c*x + d*y + f
+            x, y = x_new, y_new
+
+            points[i, 0] = x
+            points[i, 1] = y
+
+        return points
+else:
+    def ifs_iterate(transforms, n_iterations, x0, y0):
+        """Fallback when numba not available"""
+        n_transforms = transforms.shape[0]
+        cum_probs = np.cumsum(transforms[:, 6])
+        x, y = x0, y0
+        points = np.zeros((n_iterations, 2), dtype=np.float32)
+
+        for i in range(n_iterations):
+            r = np.random.random()
+            idx = np.searchsorted(cum_probs, r)
+            t = transforms[idx]
+            x_new = t[0] * x + t[1] * y + t[4]
+            y_new = t[2] * x + t[3] * y + t[5]
+            x, y = x_new, y_new
+            points[i, 0] = x
+            points[i, 1] = y
+
+        return points
+
+def ifs(
+    transforms_config: list,
+    width: int = 800,
+    height: int = 600,
+    x_min: float = -2.5,
+    x_max: float = 2.5,
+    y_min: float = 0.0,
+    y_max: float = 10.0,
+    iterations: int = 100000,
+    output_path: str = "assets/output/ifs.png",
+    palette: str = "fire",
+    gamma: float = 0.85,
+    return_rgb: bool = False,
+    custom_palette: str = None,
+    custom_accent: str = None,
+) -> str:
+    """
+    Generate an IFS fractal.
+    transforms_config: list of dicts with keys: a, b, c, d, e, f, prob
+    """
+    # Convert transforms to numpy array for numba
+    n_transforms = len(transforms_config)
+    transforms_array = np.zeros((n_transforms, 7), dtype=np.float32)
+    for i, t in enumerate(transforms_config):
+        transforms_array[i, 0] = t["a"]
+        transforms_array[i, 1] = t["b"]
+        transforms_array[i, 2] = t["c"]
+        transforms_array[i, 3] = t["d"]
+        transforms_array[i, 4] = t["e"]
+        transforms_array[i, 5] = t["f"]
+        transforms_array[i, 6] = t["prob"]
+
+    # Normalize probabilities to sum to 1
+    total_prob = transforms_array[:, 6].sum()
+    if total_prob > 0:
+        transforms_array[:, 6] /= total_prob
+
+    # Generate points
+    if NUMBA_AVAILABLE:
+        points = ifs_iterate(transforms_array, iterations, 0.0, 0.0)
+    else:
+        # Fallback without numba
+        x, y = 0.0, 0.0
+        points = np.zeros((iterations, 2), dtype=np.float32)
+        cum_probs = np.cumsum(transforms_array[:, 6])
+
+        for i in range(iterations):
+            r = np.random.random()
+            idx = np.searchsorted(cum_probs, r)
+            t = transforms_array[idx]
+            x_new = t[0] * x + t[1] * y + t[4]
+            y_new = t[2] * x + t[3] * y + t[5]
+            x, y = x_new, y_new
+            points[i, 0] = x
+            points[i, 1] = y
+
+    # Create histogram (density map)
+    x_coords = points[:, 0]
+    y_coords = points[:, 1]
+
+    # Filter points within bounds
+    mask = (x_coords >= x_min) & (x_coords <= x_max) & (y_coords >= y_min) & (y_coords <= y_max)
+    x_coords = x_coords[mask]
+    y_coords = y_coords[mask]
+
+    if len(x_coords) == 0:
+        # Return black image if no points
+        rgb = np.zeros((height, width, 3), dtype=np.uint8)
+        if return_rgb:
+            return rgb
+        if output_path:
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            img = Image.fromarray(rgb, mode="RGB")
+            img.save(output_path)
+            return output_path
+        return rgb
+
+    # Map to pixel coordinates
+    x_pixels = ((x_coords - x_min) / (x_max - x_min) * (width - 1)).astype(np.int32)
+    y_pixels = ((y_coords - y_min) / (y_max - y_min) * (height - 1)).astype(np.int32)
+
+    # Clip to valid range
+    x_pixels = np.clip(x_pixels, 0, width - 1)
+    y_pixels = np.clip(y_pixels, 0, height - 1)
+
+    # Create density map
+    density = np.zeros((height, width), dtype=np.float32)
+    np.add.at(density, (y_pixels, x_pixels), 1.0)
+
+    # Apply logarithmic scaling for better visualization
+    density = np.log1p(density)  # log(1 + density)
+
+    # Normalize
+    d_max = density.max()
+    if d_max > 0:
+        t = density / d_max
+    else:
+        t = np.zeros_like(density)
+
+    # Apply gamma correction
+    t = t ** gamma
+
+    # Apply palette
+    if palette == "custom" and custom_palette and custom_accent:
+        rgb = _create_custom_palette(t, custom_palette, custom_accent)
+    elif palette in PALETTES:
+        pal_fn = PALETTES[palette]
+        rgb = pal_fn(t)
+    else:
+        rgb = _palette_fire(t)
+
+    # Return RGB array or save to file
+    if return_rgb:
+        return rgb
+
+    if output_path:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        img = Image.fromarray(rgb, mode="RGB")
+        img.save(output_path, compress_level=1, optimize=False)
+        return output_path
+
+    return rgb
+
+def ifs_audio_frames_2d(
+    rms: np.ndarray,
+    cent: np.ndarray,
+    preset: dict,
+    width: int = 800,
+    height: int = 600,
+    output_dir: str = "assets/output/audio_frames",
+    progress_callback=None,
+    fps: int = 60,
+    audio_path: str = None,
+    video_filename: str = None,
+    rotation_enabled: bool = False,  # Enable rotation
+    rotation_velocity: float = 0.1,  # Rotation velocity (radians per frame)
+    waveform: np.ndarray = None,  # Waveform data per frame for direct audio following
+) -> str:
+    """
+    Generate IFS fractal video frames from audio features.
+    Similar to julia_audio_frames_2d but for IFS fractals.
+    """
+    if not IMAGEIO_AVAILABLE:
+        raise RuntimeError("imageio is required for video generation")
+
+    # Get preset values
+    base_transforms = preset.get("transforms", IFS_PRESETS["barnsley_fern"]["transforms"])
+    x_min, x_max = preset.get("x_min", -2.5), preset.get("x_max", 2.5)
+    y_min, y_max = preset.get("y_min", 0.0), preset.get("y_max", 10.0)
+    base_iterations = preset.get("iterations", 100000)
+    palette = preset.get("palette", "fire")
+    gamma = preset.get("gamma", 0.85)
+
+    # Normalize audio features
+    rms_norm = (rms - rms.min()) / (rms.max() - rms.min() + 1e-10)
+    cent_norm = (cent - cent.min()) / (cent.max() - cent.min() + 1e-10)
+
+    # Normalize waveform if provided
+    waveform_norm = None
+    if waveform is not None:
+        waveform_norm = (waveform - waveform.min()) / (waveform.max() - waveform.min() + 1e-10)
+
+        # Create output directory
+    output_dir_path = Path(output_dir)
+    output_dir_path.mkdir(parents=True, exist_ok=True)
+
+    # Determine video output path
+    if video_filename:
+        video_path = output_dir_path / video_filename
+    else:
+        video_path = output_dir_path / "visualization.mp4"
+
+    # Initialize video writer
+    writer = None
+    try:
+        # Get ffmpeg path
+        if IMAGEIO_FFMPEG_AVAILABLE:
+            ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+        else:
+            ffmpeg_exe = "ffmpeg"
+
+        writer = imageio.get_writer(str(video_path), fps=fps, codec='libx264',
+                                    pixelformat='yuv420p', quality=8, ffmpeg_params=[
+            '-preset', 'medium',
+            '-crf', '23',
+        ])
+
+        total_frames = len(rms)
+
+        # Rotation angle accumulator for IFS
+        rotation_angle = 0.0
+
+        for i, (energy, brightness) in enumerate(zip(rms_norm, cent_norm)):
+            # Apply rotation if enabled
+            if rotation_enabled:
+                rotation_angle = i * rotation_velocity  # Constant rotation per frame
+
+            # Use waveform for more direct audio following if available
+            if waveform_norm is not None:
+                wave_val = waveform_norm[i]
+                # Blend energy/brightness with waveform
+                energy = energy * 0.7 + wave_val * 0.3  # 70% RMS, 30% waveform
+                brightness = brightness * 0.7 + wave_val * 0.3  # 70% centroid, 30% waveform
+
+            # Modify transforms based on audio
+            # Vary transformation probabilities or parameters
+            transforms = []
+            for t in base_transforms:
+                # Vary rotation/scale slightly based on audio
+                energy_factor = 1.0 + 0.1 * energy  # 1.0 to 1.1
+                brightness_factor = 1.0 + 0.05 * brightness  # 1.0 to 1.05
+
+                new_t = t.copy()
+
+                # Apply rotation to transformation matrix if enabled
+                if rotation_enabled:
+                    # Rotation matrix: [cos(θ) -sin(θ); sin(θ) cos(θ)]
+                    cos_r = np.cos(rotation_angle)
+                    sin_r = np.sin(rotation_angle)
+                    # Rotate the transformation matrix [a b; c d]
+                    a_old, b_old = t["a"], t["b"]
+                    c_old, d_old = t["c"], t["d"]
+                    # Apply rotation: R * [a b; c d] * R^T (or simpler: rotate the transform)
+                    new_t["a"] = a_old * cos_r - b_old * sin_r
+                    new_t["b"] = a_old * sin_r + b_old * cos_r
+                    new_t["c"] = c_old * cos_r - d_old * sin_r
+                    new_t["d"] = c_old * sin_r + d_old * cos_r
+
+                # Scale transformation matrix
+                new_t["a"] = new_t["a"] * energy_factor
+                new_t["d"] = new_t["d"] * energy_factor
+                # Vary translation based on brightness
+                new_t["e"] = t["e"] * brightness_factor
+                new_t["f"] = t["f"] * brightness_factor
+                transforms.append(new_t)
+
+            # Vary iterations based on energy
+            iterations = int(base_iterations * (0.8 + 0.4 * energy))
+
+            # Generate frame
+            rgb_frame = ifs(
+                transforms_config=transforms,
+                width=width,
+                height=height,
+                x_min=x_min,
+                x_max=x_max,
+                y_min=y_min,
+                y_max=y_max,
+                iterations=iterations,
+                output_path=None,
+                palette=palette,
+                gamma=gamma,
+                return_rgb=True,
+            )
+
+            # Write frame
+            writer.append_data(rgb_frame)
+
+            if progress_callback:
+                progress_callback(i + 1, total_frames)
+
+        writer.close()
+        writer = None
+
+        # Add audio if provided
+        if audio_path and os.path.exists(audio_path):
+            try:
+                import subprocess
+                import shutil
+
+                temp_video_path = video_path.with_suffix('.temp.mp4')
+                shutil.move(str(video_path), str(temp_video_path))
+
+                ffmpeg_cmd = [
+                    ffmpeg_exe,
+                    '-i', str(temp_video_path),
+                    '-i', str(audio_path),
+                    '-c:v', 'copy',
+                    '-c:a', 'aac',
+                    '-map', '0:v:0',
+                    '-map', '1:a:0',
+                    '-shortest',
+                    '-async', '1',
+                    '-y',
+                    str(video_path)
+                ]
+
+                result = subprocess.run(ffmpeg_cmd, capture_output=True, text=True, timeout=300)
+                if result.returncode == 0:
+                    temp_video_path.unlink()
+                else:
+                    print(f"Warning: Failed to add audio: {result.stderr}")
+                    shutil.move(str(temp_video_path), str(video_path))
+            except Exception as e:
+                print(f"Warning: Failed to add audio: {e}")
+                if temp_video_path.exists():
+                    shutil.move(str(temp_video_path), str(video_path))
+
+        return str(video_path)
+
+    finally:
+        if writer:
+            writer.close()
+
 ### ANIMACIÓN CON JULIA ###
 
 def julia_audio_frames_2d(
@@ -697,6 +1155,8 @@ def julia_audio_frames_2d(
     c_base_offset_imag: float = 0.0,  # C base offset (imaginary part)
     rotation_enabled: bool = False,  # Enable rotation
     rotation_velocity: float = 0.1,  # Rotation velocity (radians per frame)
+    video_filename: str = None,  # Optional custom video filename (default: "visualization.mp4")
+    waveform: np.ndarray = None,  # Waveform data per frame for direct audio following
 ) -> str:
     """
     Optimized version: precomputes complex plane and reuses buffers.
@@ -710,8 +1170,9 @@ def julia_audio_frames_2d(
     current_width = width
     current_height = height
 
-    # OPTIMIZATION: Precompute complex plane (only if not using dynamic dimensions)
-    Z0 = None if dynamic_dimensions else make_plane(width, height, preset["view"])
+    # OPTIMIZATION: Precompute base complex plane (original, unrotated)
+    # Store original plane separately to ensure rotation is always from the same base
+    Z0_base = None if dynamic_dimensions else make_plane(width, height, preset["view"])
 
     # OPTIMIZATION: Preallocate buffers for reuse (use max size for dynamic)
     max_width = int(width * (dimension_factor ** len(rms))) if dynamic_dimensions else width
@@ -735,7 +1196,10 @@ def julia_audio_frames_2d(
         )
 
     # Use output_dir as the final video path (will be set by caller)
-    video_path = os.path.join(output_dir, "visualization.mp4")
+    if video_filename:
+        video_path = os.path.join(output_dir, video_filename)
+    else:
+        video_path = os.path.join(output_dir, "visualization.mp4")
     # Use imageio to write video directly (much faster than PNG)
     # Quality from preset (5-10, lower = faster encoding)
     video_quality = preset.get('video_quality', 8)
@@ -749,8 +1213,14 @@ def julia_audio_frames_2d(
             f"Failed to create video writer. Make sure ffmpeg is installed. Error: {e}"
         )
 
-    # Rotation angle accumulator
-    rotation_angle = 0.0
+    # Precompute rotation center (constant for all frames)
+    x_min, x_max, y_min, y_max = preset["view"]
+    rotation_center = (x_min + x_max) / 2.0 + 1j * (y_min + y_max) / 2.0
+
+    # Normalize waveform if provided
+    waveform_norm = None
+    if waveform is not None:
+        waveform_norm = (waveform - waveform.min()) / (waveform.max() - waveform.min() + 1e-10)
 
     try:
         for i, (a, b) in enumerate(zip(rms, cent)):
@@ -758,26 +1228,23 @@ def julia_audio_frames_2d(
             if dynamic_dimensions:
                 current_width = int(width * (dimension_factor ** i))
                 current_height = int(height * (dimension_factor ** i))
-                # Recompute plane for new dimensions
-                Z0 = make_plane(current_width, current_height, preset["view"])
+                # Recompute base plane for new dimensions
+                Z0_base = make_plane(current_width, current_height, preset["view"])
+                # Update rotation center for new dimensions
+                rotation_center = (x_min + x_max) / 2.0 + 1j * (y_min + y_max) / 2.0
+
+            # Start with base plane (always unrotated)
+            Z0 = Z0_base.copy() if not dynamic_dimensions else Z0_base
 
             # Apply rotation to the complex plane if enabled
             if rotation_enabled:
-                rotation_angle += rotation_velocity
-                # Rotate the view coordinates
-                x_min, x_max, y_min, y_max = preset["view"]
-                center_x = (x_min + x_max) / 2.0
-                center_y = (y_min + y_max) / 2.0
-
-                # Create rotated plane
-                if dynamic_dimensions:
-                    Z0_rotated = make_plane(current_width, current_height, preset["view"])
-                else:
-                    Z0_rotated = Z0.copy()
+                # Calculate rotation angle based on frame number for constant rotation
+                # rotation_velocity is already in radians per frame
+                rotation_angle = i * rotation_velocity
 
                 # Apply rotation: rotate each point around center
-                Z0_centered = Z0_rotated - (center_x + 1j * center_y)
-                Z0_rotated = Z0_centered * np.exp(1j * rotation_angle) + (center_x + 1j * center_y)
+                Z0_centered = Z0 - rotation_center
+                Z0_rotated = Z0_centered * np.exp(1j * rotation_angle) + rotation_center
                 Z0 = Z0_rotated.astype(np.complex64)
 
             # Apply Z offset to the complex plane
@@ -785,8 +1252,19 @@ def julia_audio_frames_2d(
                 Z0 = Z0 + (z_offset_real + 1j * z_offset_imag)
 
             # Calculate C with base offset
-            c_real = preset["base_c_real"] + c_base_offset_real + preset["amp_real"] * (a - 0.5)
-            c_imag = preset["base_c_imag"] + c_base_offset_imag + preset["amp_imag"] * (b - 0.5)
+            # Use waveform data for more direct audio following if available
+            if waveform_norm is not None:
+                # Blend RMS/centroid with waveform for more direct audio response
+                wave_val = waveform_norm[i]
+                # Use waveform to modulate the amplitude more directly
+                a_modulated = a * 0.7 + wave_val * 0.3  # 70% RMS, 30% waveform
+                b_modulated = b * 0.7 + wave_val * 0.3  # 70% centroid, 30% waveform
+                c_real = preset["base_c_real"] + c_base_offset_real + preset["amp_real"] * (a_modulated - 0.5)
+                c_imag = preset["base_c_imag"] + c_base_offset_imag + preset["amp_imag"] * (b_modulated - 0.5)
+            else:
+                # Fallback to RMS and centroid only
+                c_real = preset["base_c_real"] + c_base_offset_real + preset["amp_real"] * (a - 0.5)
+                c_imag = preset["base_c_imag"] + c_base_offset_imag + preset["amp_imag"] * (b - 0.5)
 
             # --- INERCIA (movimiento continuo) ---
             if prev_real is None:
@@ -880,13 +1358,19 @@ def julia_audio_frames_2d(
                 return video_path
 
             # Use ffmpeg to combine video and audio
+            # Use -map to explicitly map streams and ensure audio starts at 0
+            # Combine video and audio
+            # The trimmed audio file should already start at 0, ensure proper synchronization
             ffmpeg_cmd = [
                 ffmpeg_exe,
                 '-i', temp_video_path,
                 '-i', str(audio_path),
                 '-c:v', 'copy',  # Copy video codec (no re-encoding)
                 '-c:a', 'aac',   # Encode audio as AAC
+                '-map', '0:v:0',  # Map video from first input
+                '-map', '1:a:0',  # Map audio from second input
                 '-shortest',     # Use shortest stream duration
+                '-async', '1',   # Audio sync method
                 '-y',            # Overwrite output file
                 str(video_path)
             ]

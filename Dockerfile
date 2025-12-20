@@ -15,12 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Copy requirements and install Python dependencies
-COPY app/requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY app/ .
+COPY app/ ./app/
+COPY run.py .
 
 # Default command (can be overridden)
-CMD ["python", "gui.py"]
+CMD ["python", "run.py"]

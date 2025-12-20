@@ -19,8 +19,42 @@ def smooth_ar(x: np.ndarray, alpha_up: float, alpha_down: float) -> np.ndarray:
         out[i] = a * x[i] + (1 - a) * out[i-1]
     return out
 
-def extract_features(audio_path: str, fps: int = 30):
-    y, sr = librosa.load(audio_path, sr=None, mono=True)
+def extract_features(audio_path: str, fps: int = 30, start_time: float = None, end_time: float = None, return_waveform: bool = False):
+    """
+    Extract audio features (RMS and spectral centroid), optionally with waveform data.
+
+    Args:
+        audio_path: Path to audio file
+        fps: Frames per second for feature extraction
+        start_time: Start time in seconds (None = start from beginning)
+        end_time: End time in seconds (None = end at file end)
+        return_waveform: If True, also return waveform data per frame
+
+    Returns:
+        rms_s: Smoothed RMS energy array
+        cent_s: Smoothed spectral centroid array
+        sr: Sample rate
+        duration: Duration of processed audio segment
+        waveform (optional): Waveform data per frame (if return_waveform=True)
+    """
+    # Load full audio first to get duration
+    y_full, sr = librosa.load(audio_path, sr=None, mono=True)
+    full_duration = len(y_full) / sr
+
+    # Apply trimming if specified
+    if start_time is not None or end_time is not None:
+        start_sample = int(start_time * sr) if start_time is not None else 0
+        end_sample = int(end_time * sr) if end_time is not None else len(y_full)
+
+        # Clamp to valid range
+        start_sample = max(0, min(start_sample, len(y_full)))
+        end_sample = max(start_sample + 1, min(end_sample, len(y_full)))
+
+        y = y_full[start_sample:end_sample]
+        duration = len(y) / sr
+    else:
+        y = y_full
+        duration = full_duration
 
     hop_length = max(1, int(sr / fps))
     frame_length = 4 * hop_length
@@ -43,7 +77,23 @@ def extract_features(audio_path: str, fps: int = 30):
     rms_s  = smooth_ar(rms_n,  alpha_up=0.10, alpha_down=0.04)
     cent_s = smooth_ar(cent_n, alpha_up=0.06, alpha_down=0.02)
 
-    duration = len(y) / sr
+    # Extract waveform data per frame if requested
+    waveform = None
+    if return_waveform:
+        n_frames = len(rms_s)
+        waveform = np.zeros(n_frames, dtype=np.float32)
+        for i in range(n_frames):
+            frame_start = i * hop_length
+            frame_end = min(frame_start + frame_length, len(y))
+            if frame_end > frame_start:
+                # Get RMS of this frame's waveform segment
+                frame_wave = y[frame_start:frame_end]
+                waveform[i] = np.abs(frame_wave).mean()  # Mean absolute amplitude
+        # Normalize waveform
+        if waveform.max() > 0:
+            waveform = waveform / waveform.max()
+        return rms_s, cent_s, sr, duration, waveform
+
     return rms_s, cent_s, sr, duration
 
 def audio_profile(audio_path: str, fps: int = 60) -> dict:

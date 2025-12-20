@@ -10,12 +10,12 @@ if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
     docker-compose run --rm \
         -e DISPLAY=$DISPLAY \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
-        fractal-visualizer python gui.py
+        fractal-visualizer python run.py
 
     # Revoke X11 access
     xhost -local:docker 2>/dev/null || true
 else
     # Windows - use docker-compose directly
-    docker-compose run --rm fractal-visualizer python gui.py
+    docker-compose run --rm fractal-visualizer python run.py
 fi
 

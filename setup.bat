@@ -26,7 +26,7 @@ python -m pip install --upgrade pip
 
 REM Install dependencies
 echo Installing dependencies...
-pip install -r app\requirements.txt
+pip install -r requirements.txt
 
 REM Check for ffmpeg
 where ffmpeg >nul 2>&1
@@ -36,5 +36,5 @@ if errorlevel 1 (
 )
 
 echo Setup complete!
-echo To run the GUI: python app\gui.py
+echo To run the GUI: python run.py
 

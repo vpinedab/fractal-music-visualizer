@@ -23,7 +23,7 @@ pip install --upgrade pip
 
 # Install dependencies
 echo "Installing dependencies..."
-pip install -r app/requirements.txt
+pip install -r requirements.txt
 
 # Check for system dependencies
 echo "Checking system dependencies..."
@@ -35,5 +35,5 @@ if ! command -v ffmpeg &> /dev/null; then
 fi
 
 echo "Setup complete!"
-echo "To run the GUI: python app/gui.py"
+echo "To run the GUI: python run.py"
 
