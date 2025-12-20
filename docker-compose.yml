@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  fractal-visualizer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fractal-music-visualizer
+    volumes:
+      # Mount app directory for live code changes
+      - ./app:/app
+      # Mount assets directory
+      - ./app/assets:/app/assets
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - PYTHONUNBUFFERED=1
+    # For GUI on Linux/Mac, use X11 forwarding
+    # For Windows, GUI will work if Docker Desktop is configured properly
+    network_mode: host
+    # Keep container running
+    stdin_open: true
+    tty: true
+    # Override command if needed
+    # command: python gui.py
+

@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+ENV/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+desktop.ini
+
+# Output files (don't copy generated content)
+app/assets/output/frames/**/*.png
+app/assets/output/frames/**/*.mp4
+app/assets/output/videos/**/*.mp4
+*.mp4
+*.wav
+*.mp3
+*.flac
+
+# Logs
+*.log
+
+# Docker
+.docker/
+
+# Temporary files
+*.tmp
+*.temp
+*_temp.mp4
+
+# Platform-specific (generated)
+run.bat
+run.sh
+*.exe
+
+# Git
+.git/
+.gitignore
+
+# Documentation (not needed in container)
+*.md
+!README.md
